@@ -22,10 +22,17 @@ public:
 };
 
 class Graph{
-  static int vertices;
+  int vertices;
+  int edges;
   vector<vector<int>> adjMatrix;
 public:
-  
+  Graph(int v){
+    vertices = v;
+    v.resize(vertices, vector<float>(vertices,0));
+  }
+  ~Graph(){
+    adjMatrix.clear();
+  }
 
 
 };
