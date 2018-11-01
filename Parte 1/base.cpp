@@ -39,24 +39,38 @@ public:
     vector<int> v = a.getPoints(); //Não sei se vai dar certo
     //TODO: tratar fora do range o valor do vértice
     int w = a.getWeight();
-    if(adjMatrix[v[0],v[1]]==0){ //caso a aresta exista, mas com peso diferente, altera o peso
+    if ((v[0]> vetices) || (v[1]> vetices)){//verifica se tenta utilizar um vétice não presente no grafo
+      return false;
+    }
+    if(adjMatrix[v[0],v[1]]==0){ // nova aresta
       adjMatrix[v[0],v[1]] = w;
       adjMatrix[v[1],v[0]] = w;
       edges++;
       return true;
     }
-    else
+    else if(adjMatrix[v[0],v[1]]!=w){//alteração do peso da aresta presente no grafo
+      adjMatrix[v[0],v[1]] = w;
+      adjMatrix[v[1],v[0]] = w;
+      return true;
+    }
+else //aresta já se econtra no grafo
       return false;
   }
 
   bool remove(const Edge& a){
     vector<int> v = a.getPoints(); //Não sei se vai dar certo
     int w = a.getWeight();
-    if(adjMatrix[v[0],v[1]]!=0){
-
+    if ((v[0]> vetices) || (v[1]> vetices)){//verifica se tenta utilizar um vétice não presente no grafo
+      return false;
     }
-
-
+    if(adjMatrix[v[0],v[1]]==w){
+      adjMatrix[v[0],v[1]] = 0;
+      adjMatrix[v[1],v[0]] = 0;
+      egdes--;
+      return true;
+    }
+    else
+      return false;
   }
 
 
