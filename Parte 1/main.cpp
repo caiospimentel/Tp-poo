@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
   bool a = teste.isComplete();
   cout <<"Completo?:"<< a << endl;
   Edge C(1,0,1);
-  a = teste.edge(C);
+  a = teste.edge(A);
   cout<<"Tem aresta A:" << a << endl;
 
   teste.complete();
