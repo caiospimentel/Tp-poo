@@ -73,6 +73,56 @@ else //aresta já se econtra no grafo
       return false;
   }
 
+  int numberVertices(){
+    return vertices;
+  }
+
+  int numberEdges(){
+    return edges;
+  }
+
+  bool edge(const Edge& A){
+    vector<int> v = a.getPoints(); //Não sei se vai dar certo
+    int w = a.getWeight();
+    if ((v[0]> vetices) || (v[1]> vetices)){//verifica se tenta utilizar um vétice não presente no grafo
+      return false;
+    }
+    if(adjMatrix[v[0],v[1]]!=w){
+      return false;
+    }
+    else{
+      return true;
+    }
+
+
+
+  }
+
+  bool isComplete(){
+    for(int i = 0; i < vetices; i++){
+      for(int j = 0; j < vertices; j++){
+        if(adjMatrix[i][j]==0)
+          return false;
+      }
+    }
+    return true;
+  }
+
+  void Complete(){
+    if(isComplete){
+      return;
+    }
+    for(int i = 0; i < vetices; i++){
+      for(int j = 0; j < vertices; j++){
+        if(adjMatrix[i][j]==0)
+          adjMatrix[i][j]==1;
+      }
+    }
+
+
+  }
+
+  
 
 
   };
