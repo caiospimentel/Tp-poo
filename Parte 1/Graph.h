@@ -20,7 +20,7 @@ public:
 class Graph{ // Classe do grafo
   int vertices;
   int edges;
-  vector<vector<int>> adjMatrix;
+  vector < vector < int > > adjMatrix;
 public:
 
   Graph(int v); //Construtor
