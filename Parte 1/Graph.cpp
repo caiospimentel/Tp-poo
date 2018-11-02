@@ -19,50 +19,63 @@ int Edge::getWeight() const{// Função de interfaceamento do peso da aresta
   return w;
 }
 
-
-
 Graph::Graph(int v){ //Construtor
     vertices = v;
     adjMatrix.resize(vertices, vector<int>(vertices,0));
     for(int i=0; i<vertices;i++){//print de teste só pra ver se tamo safe
       for(int j=0; j<vertices; j++){
-        cout << adjMatrix[i][j];}}
+        cout << "Elemento"<< i << j << ":";
+        cout  << " " << adjMatrix[i][j] <<" "<<endl;
+      }
+    }
 
   }
 Graph::~Graph(){//Destrutor
+  cout <<"Destrutor chamado";
     adjMatrix.clear();
   }
 
 bool Graph::insert(const Edge& a){ // não sei se a passagem por referencia deixa chamar métodos dessa forma
     vector<int> v = a.getPoints(); //Não sei se vai dar certo
+
     //TODO: tratar fora do range o valor do vértice
     int w = a.getWeight();
+    cout <<"Imprimindo as paradita" <<v[0] << " "<< v[1] << " ";
+    cout<< w << endl;
     if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vétice não presente no grafo
+      cout<< "Vértice não está presente no grafo" << endl;
       return false;
     }
-    if(adjMatrix[v[0]][v[1]]==0){ // nova aresta
-      adjMatrix[v[0]].assign(v[1],w);
-      adjMatrix[v[1]].assign(v[0],w);
-      edges++;
-      return true;
-    }
-    else if(adjMatrix[v[0]][v[1]]!=w){//alteração do peso da aresta presente no grafo
-      adjMatrix[v[0]].assign(v[1],w);
-      adjMatrix[v[1]].assign(v[0],w);
-      return true;
-    }
-else //aresta já se econtra no grafo
+    if(v[0] == v[1]){
+      cout << "Inserção inválida: vértice para ele mesmo" << endl;
       return false;
+    }
+    if(adjMatrix[v[0]][v[1]]!=w){ // nova aresta
+      cout << "valor que ele quer tá testando:" << adjMatrix[v[0]][v[1]]<<endl;
+      adjMatrix.at(v[0]).at(v[1]) = w;
+      adjMatrix.at(v[1]).at(v[0]) = w;
+      if(adjMatrix[v[0]][v[1]] == 0){
+        edges++;}
+      return true;
+    }
+    else //aresta já se econtra no grafo
+    cout <<"aresta já está no grafo"<< endl;
+          return false;
   }
 bool Graph::remove(const Edge& a){
     vector<int> v = a.getPoints(); //Não sei se vai dar certo
     int w = a.getWeight();
     if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vétice não presente no grafo
+      cout<<"Vertice não presente no grafo" << endl;
+      return false;
+    }
+    if(v[0] == v[1]){
+      cout << "Remoção inválida: vértice para ele mesmo" << endl;
       return false;
     }
     if(adjMatrix[v[0]][v[1]]==w){
-      adjMatrix[v[0]].assign(v[1],0);
-      adjMatrix[v[1]].assign(v[0],0);
+      adjMatrix.at(v[0]).at(v[1]) = 0;
+      adjMatrix.at(v[1]).at(v[0]) = 0;
       edges--;
       return true;
     }
@@ -94,6 +107,7 @@ bool Graph::edge(const Edge& a){
 bool Graph::isComplete(){
     for(int i = 0; i < vertices; i++){
       for(int j = 0; j < vertices; j++){
+        if(i == j){continue;}
         if(adjMatrix[i][j]==0)
           return false;
       }
@@ -101,19 +115,21 @@ bool Graph::isComplete(){
     return true;
   }
 void Graph::complete(){
-    if(isComplete()){
+    if(isComplete()){//caso o grafo já esteja completo, não faz nada
       return;
     }
     for(int i = 0; i < vertices; i++){
       for(int j = 0; j < vertices; j++){
-        if(adjMatrix[i][j]==0)
-        adjMatrix[i].assign(j,1);
+        if(adjMatrix[i][j]==0){
+          if(i == j){ continue;}
+          adjMatrix.at(i).at(j) = 1;
+        }
       }
     }
 
 
   }
-void Graph::print(){
+void Graph::print(){//função para impressão da matriz de adjacência
   for(int i=0; i<vertices;i++){
     for(int j=0; j<vertices; j++){
       cout << adjMatrix[i][j];
