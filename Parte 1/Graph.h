@@ -4,6 +4,8 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -35,6 +37,7 @@ public:
   bool isComplete();
   void complete();
   void print();
+  vector <int> mst(int start = 0);//Encontra a ávore geradora mínima do grafo, recebe o vertice de onde deve começar
 
 
   };
