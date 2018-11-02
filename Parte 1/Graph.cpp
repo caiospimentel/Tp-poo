@@ -19,6 +19,8 @@ int Edge::getWeight() const{// Função de interfaceamento do peso da aresta
   return w;
 }
 
+//Construtor e Destrutor
+//TODO: Considerar caso de entradas de vértices negativos
 Graph::Graph(int v){ //Construtor
     vertices = v;
     adjMatrix.resize(vertices, vector<int>(vertices,0));
@@ -35,6 +37,9 @@ Graph::~Graph(){//Destrutor
     adjMatrix.clear();
   }
 
+
+//Métodos de Manipulação da estrutura de dados
+//TODO: Considerar caso de entradas de vértices negativos
 bool Graph::insert(const Edge& a){ // não sei se a passagem por referencia deixa chamar métodos dessa forma
     vector<int> v = a.getPoints(); //Não sei se vai dar certo
 
@@ -139,25 +144,39 @@ void Graph::print(){//função para impressão da matriz de adjacência
   }
   cout<<endl;
 }
+
+
+//ALgoritmos
 vector<int> Graph::mst(int start){
-  int current = start; // inicia a montagem da árvore pelo valor passado
+  int current; // inicia a montagem da árvore pelo valor passado
   vector<int> mstBeen, mstLack, mst;//estruturar para guardar os vértices percorridos, não percorridos e a árvore a ser retornada.
   for(int i = 0; i< vertices; i++){mstLack.push_back(i);} // inicialização dos não percorridos
   mstLack.erase(mst.begin()+start);
   mstBeen.push_back(start);//inicialização dos percorridos
 
+
+  Edge menorAresta; // redefinir como friends SE NÃO DA PAU, ACHO EU
+  menorAresta.w = INT_MAX;
   int edgeMin = INT_MAX ; //inteiro muito grande para fazer a comparação
-  int aux = start;
+  int aux = 0;
   while(mstBeen != mstLack){
 
-    while(aux<mstBeen.size(){//condição para andar por todos os valores de mstBeen) EStá errada pq aux não sabe "quem é" o vetor, itera sem saber o índice, em ordem crescente
+// Não funciona, preciso de uma forma de guardar também a aresta inteira do valor mínimo.
+//TODO: NÃO UTILIZA FUNÇÃO min(), criar lógica auxiliar que use estutura Edge pra isso
+    while(aux<mstBeen.size()){ // procura a menor aresta que sai do conjunto
+      current = mstBeen.at(aux);
       for(int j=0;j<vertices;j++){
         if(adjMatrix[current][j] == 0){continue;}
         if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos
           continue;}
-          edgeMin = min(adjMatrix.at(current).at(j), edgeMin); // encontra o menor valor das arestas
+          menorAresta.w = min(adjMatrix.at(current).at(j), edgeMin); // encontra o menor valor das arestas
+          menorAresta.v1 = current; //FUUUUUUUUUUUUUCK////////////////
+          menorAresta.v2 = j;
+
         }
+        aux++;
     }
+
 
 
 
