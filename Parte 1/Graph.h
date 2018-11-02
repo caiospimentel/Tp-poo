@@ -12,8 +12,8 @@ int v1, v2;
 int w;
 public:
   Edge(int a, int b, int c);
-  vector<int> getPoints(); // função de interfaceamento dos vértices da aresta
-  int getWeight();// Função de interfaceamento do peso da aresta
+  vector<int> getPoints() const; // função de interfaceamento dos vértices da aresta
+  int getWeight() const;// Função de interfaceamento do peso da aresta
 };
 
 
@@ -37,6 +37,6 @@ public:
   void print();
 
 
-
-
   };
+
+#endif

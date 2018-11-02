@@ -7,7 +7,7 @@ Edge::Edge(int a, int b, int c){
   v2 = b;
   w = c;
 }
-vector<int> Edge::getPoints(){ // função de interfaceamento dos vértices da aresta
+vector<int> Edge::getPoints() const { // função de interfaceamento dos vértices da aresta
 
   vector<int> v;
   v.push_back(v1);
@@ -15,7 +15,7 @@ vector<int> Edge::getPoints(){ // função de interfaceamento dos vértices da a
 
   return v; //** não sei se vai dar certo **
 }
-int Edge::getWeight(){// Função de interfaceamento do peso da aresta
+int Edge::getWeight() const{// Função de interfaceamento do peso da aresta
   return w;
 }
 
@@ -101,7 +101,7 @@ bool Graph::isComplete(){
     return true;
   }
 void Graph::complete(){
-    if(isComplete){
+    if(isComplete()){
       return;
     }
     for(int i = 0; i < vertices; i++){
