@@ -147,8 +147,12 @@ void Graph::print(){//função para impressão da matriz de adjacência
 
 
 //ALgoritmos
-vector<int> Graph::mst(int start){
-  int current; // inicia a montagem da árvore pelo valor passado
+/*vector<int> Graph::mst(int start){
+
+
+
+
+  int current = start; // inicia a montagem da árvore pelo valor passado
   vector<int> mstBeen, mstLack, mst;//estruturar para guardar os vértices percorridos, não percorridos e a árvore a ser retornada.
   for(int i = 0; i< vertices; i++){mstLack.push_back(i);} // inicialização dos não percorridos
   mstLack.erase(mst.begin()+start);
@@ -161,30 +165,86 @@ vector<int> Graph::mst(int start){
   int aux = 0;
   while(mstBeen != mstLack){
 
-// Não funciona, preciso de uma forma de guardar também a aresta inteira do valor mínimo.
-//TODO: NÃO UTILIZA FUNÇÃO min(), criar lógica auxiliar que use estutura Edge pra isso
-    while(aux<mstBeen.size()){ // procura a menor aresta que sai do conjunto
-      current = mstBeen.at(aux);
-      for(int j=0;j<vertices;j++){
-        if(adjMatrix[current][j] == 0){continue;}
-        if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos
-          continue;}
-          menorAresta.w = min(adjMatrix.at(current).at(j), edgeMin); // encontra o menor valor das arestas
-          menorAresta.v1 = current; //FUUUUUUUUUUUUUCK////////////////
-          menorAresta.v2 = j;
+      // Não funciona, preciso de uma forma de guardar também a aresta inteira do valor mínimo.
+      //TODO: NÃO UTILIZA FUNÇÃO min(), criar lógica auxiliar que use estutura Edge pra isso
+        while(aux<mstBeen.size()){ // procura a menor aresta que sai do conjunto
+        current = mstBeen.at(aux);
+        for(int j=0;j<vertices;j++){
+          if(adjMatrix[current][j] == 0){continue;}
+          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos
+            continue;}
+            menorAresta.w = min(adjMatrix.at(current).at(j), edgeMin); // encontra o menor valor das arestas
+            menorAresta.v1 = current; //FUUUUUUUUUUUUUCK////////////////
+            menorAresta.v2 = j;
 
+          }
+          aux++;
         }
-        aux++;
-    }
 
 
 
 
 
-  }
+      }
 
 
 
 
 
+}
+
+*/
+
+vector<int> Graph::bfs(int start){
+  vector<int> bfs;
+
+  queue<int> queue; //lista de controle
+  vector<int> adjecents;//vetor de adjacentes do vértice atual
+	bool visited[vertices]; //vértices visitados
+	bool explored[vertices][vertices]; //arestas exploradas
+
+	visited[start] = true;//inicialização necessária
+	queue.push(start);
+
+	int current;
+	int neighbor;
+
+	while(!queue.empty()){
+		current = queue.front();//pega o primeiro valor da fila para explorar os vizinhos
+
+		queue.pop();// remove da fila
+		bfs.push_back(current); // adiciona no vetor de retorno da busca
+
+
+		for(int i = 0; i< vertices; i++){
+			if(adjMatrix[current][i] != 0){
+  
+				adjecents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+			}
+
+		}
+		while(!adjecents.empty()){
+
+      neighbor = adjecents.back();//pega o vizinho do atual
+
+      adjecents.pop_back();//remove o vizinho do conjunto de adjacentes para fins de loop
+			if(visited[neighbor] == false){
+			     explored[current][neighbor] = true;//Explora a aresta entre os dois nós.
+				explored[neighbor][current] = true;
+				queue.push(neighbor); // coloca o visinho na fila
+				visited[neighbor] = true; // marca o visinho
+			}
+			else
+				if(explored[current][neighbor] == false){
+					explored[current][neighbor];
+					explored[neighbor][current];
+				}
+
+
+
+		}
+
+	}
+
+	return bfs;
 }
