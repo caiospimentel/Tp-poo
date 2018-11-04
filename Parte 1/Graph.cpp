@@ -140,6 +140,10 @@ void Graph::print(){//função para impressão da matriz de adjacência
   cout<<endl;
 }
 vector<int> Graph::mst(int start){
+	
+
+	
+	
   int current = start; // inicia a montagem da árvore pelo valor passado
   vector<int> mstBeen, mstLack, mst;//estruturar para guardar os vértices percorridos, não percorridos e a árvore a ser retornada.
   for(int i = 0; i< vertices; i++){mstLack.push_back(i);} // inicialização dos não percorridos
@@ -169,3 +173,27 @@ vector<int> Graph::mst(int start){
 
 
 }
+
+
+
+vector<int> Graph::bfs(int start){
+	
+	queue<int> queue;
+	bool visited[vetices];
+	visited[start] = true;
+	queue.push(start);
+	
+	while(queue != queue.empty(){
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+}
+
