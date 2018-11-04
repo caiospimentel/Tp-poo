@@ -177,23 +177,51 @@ vector<int> Graph::mst(int start){
 
 
 vector<int> Graph::bfs(int start){
+	vector<int> bfs;
 	
-	queue<int> queue;
-	bool visited[vetices];
-	visited[start] = true;
+	queue<int> queue; //lista de controle
+	vector<int> adjacents;//vetor de adjacentes do vértice atual
+	bool visited[vetices]; //vértices visitados
+	bool explored[vertices][vertices]; //arestas exploradas
+	
+	visited[start] = true;//inicialização necessária
 	queue.push(start);
 	
-	while(queue != queue.empty(){
+	int current;
+	int neighbor;
+	
+	while(!queue.empty()){
+		current = queue.front();//pega o primeiro valor da fila para explorar os vizinhos	
+		queue.pop();// remove da fila
+		bfs.push_back(current); // adiciona no vetor de retorno da busca
+		
+		for(int i = 0; i< vertices; i++){
+			if(adjMatrix[current][i] =! 0){
+				adjecents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+			}
+			
+		}
+		while(!adjcents.empty()){
+			if(visited[neighbor] == false){
+				neighbor = adjecents.back();//pega o vizinho do atual
+				adjecents.pop_back();//remove o vizinho do conjunto de adjacentes para fins de loop
+				explored[current][neighbor] = true;//Explora a aresta entre os dois nós.
+				explored[neighbor][current] = true;
+				queue.push(neighbor); // coloca o visinho na fila
+				visited.[neighbor] = true; // marca o visinho
+			}
+			else
+				if(explored[current][neighbor] == false){
+					explored[current][neighbor];
+					explored[neighbor][current];
+				}
 		
 		
 		
+		}
 		
 	}
 	
-	
-	
-	
-	
-	
+	return bfs;
 }
 
