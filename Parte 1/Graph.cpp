@@ -199,7 +199,7 @@ vector<int> Graph::bfs(int start){
   vector<int> bfs;
 
   queue<int> queue; //lista de controle
-  vector<int> adjecents;//vetor de adjacentes do vértice atual
+  vector<int> adjacents;//vetor de adjacentes do vértice atual
 	bool visited[vertices]; //vértices visitados
 	bool explored[vertices][vertices]; //arestas exploradas
 
@@ -218,16 +218,16 @@ vector<int> Graph::bfs(int start){
 
 		for(int i = 0; i< vertices; i++){
 			if(adjMatrix[current][i] != 0){
-  
-				adjecents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+
+				adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
 			}
 
 		}
-		while(!adjecents.empty()){
+		while(!adjacents.empty()){
 
-      neighbor = adjecents.back();//pega o vizinho do atual
+      neighbor = adjacents.back();//pega o vizinho do atual
 
-      adjecents.pop_back();//remove o vizinho do conjunto de adjacentes para fins de loop
+      adjacents.pop_back();//remove o vizinho do conjunto de adjacentes para fins de loop
 			if(visited[neighbor] == false){
 			     explored[current][neighbor] = true;//Explora a aresta entre os dois nós.
 				explored[neighbor][current] = true;
@@ -247,4 +247,53 @@ vector<int> Graph::bfs(int start){
 	}
 
 	return bfs;
+}
+
+vector<int> Graph::dfs(int v){
+   bool* visited; //vértices visitados
+   visited = new bool[vertices];
+
+   bool** explored; //arestas exploradas
+  explored = new bool* [vertices];
+  for(int i = 0; i<vertices; i++){
+    explored[i] = new bool[vertices];
+  }
+  static vector<int> dfs;
+  int neighbor;
+  vector<int> adjacents;//vetor de adjacentes do vértice atual
+
+  for(int i = 0; i< vertices; i++){
+    if(adjMatrix[v][i] != 0){
+      adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+    }
+  }
+    visited[v] = true;
+    while(!adjacents.empty()){
+      neighbor = adjacents.back();
+      adjacents.pop_back();
+      if(!visited[neighbor]){
+        explored[v][neighbor] = true;
+        explored[neighbor][v] = true;
+        visited[neighbor] = true;
+        this->dfs(neighbor);
+      }
+      else{
+        if(!explored[v][neighbor]){
+          explored[v][neighbor] = true;
+          explored[neighbor][v] = true;
+        }
+      }
+
+
+    }
+
+    if(dfs.size() == vertices){
+
+      delete visited;
+      for (int j = 0; j < vertices; j++)
+        delete [] explored[j];
+      delete [] explored;
+      return dfs;
+
+    }
 }

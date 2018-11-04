@@ -37,7 +37,7 @@ int main(int argc, char const *argv[]) {
 
   teste.print();
 
-  vector<int> v = teste.bfs();
+  vector<int> v = teste.dfs();
   for(int i = 0; i<7; i++){
     cout << v.at(i) << endl;
   }

@@ -40,6 +40,7 @@ public:
   void print();
   vector <int> mst(int start = 0);//Encontra a ávore geradora mínima do grafo, recebe o vertice de onde deve começar
   vector<int> bfs(int start = 0); //Realiza a busca em largura
+  vector<int> dfs(int v = 0);
 
   };
 
