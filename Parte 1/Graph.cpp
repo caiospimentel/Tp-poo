@@ -170,43 +170,35 @@ Graph Graph::mst(int start){
   mstBeen.push_back(start);//inicialização dos percorridos
 
 
-  Edge menorAresta(0,0,INT_MAX); // redefinir como friends SE NÃO DA PAU, ACHO EU (VALORES ARBITRÁTIOS PARA INICIALIZAR)
+  Edge menorAresta(0,0,INT_MAX); //VALORES ARBITRÁTIOS PARA INICIALIZAR
 
 
 
-  int edgeMin = INT_MAX ; //inteiro muito grande para fazer a comparação
-
-
-
-
-
-  int iterator = 0; // iterador para o while
   vector<int> vaux; //vetor auxiliar para receber os vértices da menor aresta, atributos privados da classe Edge
-  while(mstBeen.size() != mstLack.size()){
+  while(!mstLack.empty()){ // fica preso infinitamente, precisa resolver
 
-      // Não funciona, preciso de uma forma de guardar também a aresta inteira do valor mínimo.
-      //TODO: N
-
-      while(iterator<mstBeen.size()){ // procura a menor aresta que sai do conjunto
+      //erro está muito provavelmente aqui
+      for(int iterator = 0; iterator<mstBeen.size();iterator++){ // procura a menor aresta que sai do conjunto
         current = mstBeen.at(iterator); //passa por todos os vértices em que já esteve
         for(int j=0;j<vertices;j++){
           if(adjMatrix[current][j] == 0){continue;}
-          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos e ignora
+          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j(destino) nos vértices já percorridos e ignora
             continue;}
-          if(adjMatrix.at(current).at(j) < menorAresta.getWeight()){
-              menorAresta.modifiyEdge(current, j, adjMatrix.at(current).at(j));
+          if(adjMatrix[current][j] < menorAresta.getWeight()){
+              menorAresta.modifiyEdge(current, j, adjMatrix.at(current).at(j));//coloca o valor da menor aresta encontrada no conjunto, saindo do atual até um destino j
             }
           }
-          iterator++;
+
         }
 
         //Nesse momento, menorAresta contem a menor aresta que sai do conjunto
-        vaux = menorAresta.getPoints();
-        mstBeen.push_back(vaux.at(1)); //inclui nos vértices já visitados o vértice incluso
-        
-        for(int m = 0;   m<mstLack.size(); m++){//remove dos vertices que faltam o vértice incluso
+
+      vaux = menorAresta.getPoints();
+      mstBeen.push_back(vaux.at(1)); //inclui nos vértices já visitados o vértice incluso
+
+      for(int m = 0;   m<mstLack.size(); m++){//remove dos vertices que faltam o vértice incluso
           if(mstLack.at(m)==vaux.at(1)){
-            mstLack.erase(mstLack.begin()+m);
+            mstLack.erase(mstLack.begin()+m);//lack nunca está esvaziando
             break;
           }
 
