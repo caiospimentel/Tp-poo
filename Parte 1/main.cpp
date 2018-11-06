@@ -37,7 +37,9 @@ int main(int argc, char const *argv[]) {
 
   teste.print();
 
+cout<<"antes de chamar dfs";
   vector<int> v = teste.dfs();
+
   for(int i = 0; i<7; i++){
     cout << v.at(i) << endl;
   }

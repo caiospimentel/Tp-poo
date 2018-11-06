@@ -2,6 +2,10 @@
 
 using namespace std;
 
+
+
+
+
 Edge::Edge(int a, int b, int c){
   v1 = a;
   v2 = b;
@@ -147,7 +151,7 @@ void Graph::print(){//função para impressão da matriz de adjacência
 
 
 //ALgoritmos
-/*vector<int> Graph::mst(int start){
+vector<int> Graph::mst(int start){
 
 
 
@@ -162,21 +166,27 @@ void Graph::print(){//função para impressão da matriz de adjacência
   Edge menorAresta; // redefinir como friends SE NÃO DA PAU, ACHO EU
   menorAresta.w = INT_MAX;
   int edgeMin = INT_MAX ; //inteiro muito grande para fazer a comparação
+
+
+
+
+
   int aux = 0;
   while(mstBeen != mstLack){
 
       // Não funciona, preciso de uma forma de guardar também a aresta inteira do valor mínimo.
-      //TODO: NÃO UTILIZA FUNÇÃO min(), criar lógica auxiliar que use estutura Edge pra isso
+      //TODO: N
         while(aux<mstBeen.size()){ // procura a menor aresta que sai do conjunto
         current = mstBeen.at(aux);
         for(int j=0;j<vertices;j++){
           if(adjMatrix[current][j] == 0){continue;}
           if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos
             continue;}
-            menorAresta.w = min(adjMatrix.at(current).at(j), edgeMin); // encontra o menor valor das arestas
-            menorAresta.v1 = current; //FUUUUUUUUUUUUUCK////////////////
-            menorAresta.v2 = j;
-
+            if(adjMatrix.at(current).at(j) < menorAresta.w){
+              menorAresta.w = adjMatrix.at(current).at(j); // encontra o menor valor das arestas
+              menorAresta.v1 = current;
+              menorAresta.v2 = j;
+          }
           }
           aux++;
         }
@@ -193,7 +203,7 @@ void Graph::print(){//função para impressão da matriz de adjacência
 
 }
 
-*/
+
 
 vector<int> Graph::bfs(int start){
   vector<int> bfs;
@@ -250,7 +260,8 @@ vector<int> Graph::bfs(int start){
 }
 
 vector<int> Graph::dfs(int v){
-   bool* visited; //vértices visitados
+  cout <<"welcome to the function" << endl;
+  bool* visited; //vértices visitados
    visited = new bool[vertices];
 
    bool** explored; //arestas exploradas
@@ -259,8 +270,25 @@ vector<int> Graph::dfs(int v){
     explored[i] = new bool[vertices];
   }
   static vector<int> dfs;
-  int neighbor;
+
+
+  this->dfsAux(v, explored, visited);
+
+
+    if(dfs.size() == vertices){
+
+      delete visited;
+      for (int j = 0; j < vertices; j++)
+        delete [] explored[j];
+      delete [] explored;
+      return dfs;
+
+    }
+}
+
+void Graph::dfsAux(int v, bool ** explored, bool * visited){
   vector<int> adjacents;//vetor de adjacentes do vértice atual
+  int neighbor;
 
   for(int i = 0; i< vertices; i++){
     if(adjMatrix[v][i] != 0){
@@ -287,13 +315,6 @@ vector<int> Graph::dfs(int v){
 
     }
 
-    if(dfs.size() == vertices){
 
-      delete visited;
-      for (int j = 0; j < vertices; j++)
-        delete [] explored[j];
-      delete [] explored;
-      return dfs;
 
-    }
 }
