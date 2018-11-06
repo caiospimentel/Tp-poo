@@ -17,6 +17,7 @@ public:
   Edge(int a, int b, int c);
   vector<int> getPoints() const; // função de interfaceamento dos vértices da aresta
   int getWeight() const;// Função de interfaceamento do peso da aresta
+  int modifiyEdge(int a, int b, int c);//modifica os atributos da aresta
 };
 
 
@@ -38,7 +39,7 @@ public:
   bool isComplete();
   void complete();
   void print();
-  vector <int> mst(int start = 0);//Encontra a ávore geradora mínima do grafo, recebe o vertice de onde deve começar
+  Graph mst(int start = 0);//Encontra a ávore geradora mínima do grafo, recebe o vertice de onde deve começar
   vector<int> bfs(int start = 0); //Realiza a busca em largura
   vector<int> dfs(int v = 0);
   void dfsAux(int v, bool ** explored, bool * visited);

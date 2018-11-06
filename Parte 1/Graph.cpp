@@ -5,7 +5,7 @@ using namespace std;
 
 
 
-
+//Métodos relativos às arestas
 Edge::Edge(int a, int b, int c){
   v1 = a;
   v2 = b;
@@ -21,6 +21,11 @@ vector<int> Edge::getPoints() const { // função de interfaceamento dos vértic
 }
 int Edge::getWeight() const{// Função de interfaceamento do peso da aresta
   return w;
+}
+int Edge::modifiyEdge(int a, int b, int c){
+  v1 = a;
+  v2 = b;
+  w = c;
 }
 
 //Construtor e Destrutor
@@ -151,55 +156,71 @@ void Graph::print(){//função para impressão da matriz de adjacência
 
 
 //ALgoritmos
-vector<int> Graph::mst(int start){
+Graph Graph::mst(int start){
 
 
 
 
   int current = start; // inicia a montagem da árvore pelo valor passado
-  vector<int> mstBeen, mstLack, mst;//estruturar para guardar os vértices percorridos, não percorridos e a árvore a ser retornada.
+  vector<int> mstBeen, mstLack;//estruturar para guardar os vértices percorridos, não percorridos
+  Graph mst(vertices);
   for(int i = 0; i< vertices; i++){mstLack.push_back(i);} // inicialização dos não percorridos
-  mstLack.erase(mst.begin()+start);
+
+  mstLack.erase(mstLack.begin()+start);//remove start dos não percorridos
   mstBeen.push_back(start);//inicialização dos percorridos
 
 
-  Edge menorAresta; // redefinir como friends SE NÃO DA PAU, ACHO EU
-  menorAresta.w = INT_MAX;
+  Edge menorAresta(0,0,INT_MAX); // redefinir como friends SE NÃO DA PAU, ACHO EU (VALORES ARBITRÁTIOS PARA INICIALIZAR)
+
+
+
   int edgeMin = INT_MAX ; //inteiro muito grande para fazer a comparação
 
 
 
 
 
-  int aux = 0;
-  while(mstBeen != mstLack){
+  int iterator = 0; // iterador para o while
+  vector<int> vaux; //vetor auxiliar para receber os vértices da menor aresta, atributos privados da classe Edge
+  while(mstBeen.size() != mstLack.size()){
 
       // Não funciona, preciso de uma forma de guardar também a aresta inteira do valor mínimo.
       //TODO: N
-        while(aux<mstBeen.size()){ // procura a menor aresta que sai do conjunto
-        current = mstBeen.at(aux);
+
+      while(iterator<mstBeen.size()){ // procura a menor aresta que sai do conjunto
+        current = mstBeen.at(iterator); //passa por todos os vértices em que já esteve
         for(int j=0;j<vertices;j++){
           if(adjMatrix[current][j] == 0){continue;}
-          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos
+          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j nos vértices já percorridos e ignora
             continue;}
-            if(adjMatrix.at(current).at(j) < menorAresta.w){
-              menorAresta.w = adjMatrix.at(current).at(j); // encontra o menor valor das arestas
-              menorAresta.v1 = current;
-              menorAresta.v2 = j;
+          if(adjMatrix.at(current).at(j) < menorAresta.getWeight()){
+              menorAresta.modifiyEdge(current, j, adjMatrix.at(current).at(j));
+            }
           }
-          }
-          aux++;
+          iterator++;
         }
 
+        //Nesse momento, menorAresta contem a menor aresta que sai do conjunto
+        vaux = menorAresta.getPoints();
+        mstBeen.push_back(vaux.at(1)); //inclui nos vértices já visitados o vértice incluso
+        
+        for(int m = 0;   m<mstLack.size(); m++){//remove dos vertices que faltam o vértice incluso
+          if(mstLack.at(m)==vaux.at(1)){
+            mstLack.erase(mstLack.begin()+m);
+            break;
+          }
 
+        }
 
-
+        mst.insert(menorAresta);
 
       }
 
 
 
 
+
+return mst;
 
 }
 
