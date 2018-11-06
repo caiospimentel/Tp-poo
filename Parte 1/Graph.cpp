@@ -180,12 +180,19 @@ Graph Graph::mst(int start){
       //erro está muito provavelmente aqui
       for(int iterator = 0; iterator<mstBeen.size();iterator++){ // procura a menor aresta que sai do conjunto
         current = mstBeen.at(iterator); //passa por todos os vértices em que já esteve
+        cout << "o vértcies que está sendo olhado " << current << endl;
+
         for(int j=0;j<vertices;j++){
-          if(adjMatrix[current][j] == 0){continue;}
+          if(adjMatrix[current][j] == 0){
+            cout<< "continue do peso igual a zero" << endl;
+            continue;}
           if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j(destino) nos vértices já percorridos e ignora
+            cout<< "continue de j já dentro de been" << endl;
             continue;}
           if(adjMatrix[current][j] < menorAresta.getWeight()){
               menorAresta.modifiyEdge(current, j, adjMatrix.at(current).at(j));//coloca o valor da menor aresta encontrada no conjunto, saindo do atual até um destino j
+              cout<< "Menor aresta atual, peso: "<< menorAresta.getWeight() << endl;
+              cout<< "Origem :" << current<< "Destino :" << j << endl;
             }
           }
 
@@ -212,7 +219,7 @@ Graph Graph::mst(int start){
 
 
 
-return mst;
+      return mst;
 
 }
 
