@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]) {
   Edge A(0,1,1);
   Edge B(0,2,3);
   Edge C(1,2,1);
-  Edge D(1,2,1);
+  Edge D(1,3,1);
   Edge E(1,4,4);
   Edge F(2,3,3);
   Edge G(2,4,2);
@@ -52,6 +52,9 @@ boulos = teste.mst();
 cout << "terras expropriadas";
 
 boulos.print();
+
+
+
 
 
 

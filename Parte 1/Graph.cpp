@@ -155,7 +155,7 @@ void Graph::print(){//função para impressão da matriz de adjacência
 }
 
 
-//ALgoritmos
+//Algoritmos
 Graph Graph::mst(int start){
 
 
@@ -212,7 +212,7 @@ Graph Graph::mst(int start){
         }
 
         mst.insert(menorAresta);
-
+        menorAresta.modifiyEdge(0,0,INT_MAX);
       }
 
 
@@ -222,8 +222,6 @@ Graph Graph::mst(int start){
       return mst;
 
 }
-
-
 
 vector<int> Graph::bfs(int start){
   vector<int> bfs;
