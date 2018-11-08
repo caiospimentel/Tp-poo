@@ -157,7 +157,13 @@ void Graph::print(){//função para impressão da matriz de adjacência
 
 //Algoritmos
 Graph Graph::mst(int start){
-
+    vector<int> testeConexo;
+    for(int o = 0; o<vertices; o++){
+      testeConexo.push_back(0);
+    }
+    for(o = 0; o<vertices; o++){//necessária mas não suficiente
+      if(adjMatrix[o] == testeConexo)
+    }
 
 
 
@@ -288,9 +294,17 @@ vector<int> Graph::dfs(int v){
     explored[i] = new bool[vertices];
   }
   static vector<int> dfs;
+  vector<int> adjacents;//vetor de adjacentes do vértice atual
 
 
-  this->dfsAux(v, explored, visited);
+  for(int i = 0; i< vertices; i++){
+    if(adjMatrix[v][i] != 0){
+      adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+    }
+  }
+
+
+  this->dfsAux(v, explored, visited, adjacents);
 
 
     if(dfs.size() == vertices){
@@ -304,15 +318,8 @@ vector<int> Graph::dfs(int v){
     }
 }
 
-void Graph::dfsAux(int v, bool ** explored, bool * visited){
-  vector<int> adjacents;//vetor de adjacentes do vértice atual
-  int neighbor;
-
-  for(int i = 0; i< vertices; i++){
-    if(adjMatrix[v][i] != 0){
-      adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
-    }
-  }
+void Graph::dfsAux(int v, bool ** explored, bool * visited, vector<int> & adjacents){
+    int neighbor;
     visited[v] = true;
     while(!adjacents.empty()){
       neighbor = adjacents.back();
@@ -332,6 +339,32 @@ void Graph::dfsAux(int v, bool ** explored, bool * visited){
 
 
     }
+
+
+
+}
+
+
+
+
+void Graph::dijkstra(int start, int end){
+  int dt[vertices];
+  int rot[vertices];
+  dt[0] = 0;
+  rot[0] = INT_MAX;
+  for(int i = 1; i<vertices; i++){
+    dt[i] = INT_MAX;
+    rot[i] = 0;
+  }
+
+  vector<int> open;
+  vector<int> closed;
+  for(i = 0; i<vertices; i++0){
+    open.push_back(i);
+  }
+
+
+
 
 
 
