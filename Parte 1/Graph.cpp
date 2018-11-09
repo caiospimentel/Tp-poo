@@ -28,6 +28,9 @@ int Edge::modifiyEdge(int a, int b, int c){
   w = c;
 }
 
+//Métodos para a implementação de Dijsktra
+
+
 //Construtor e Destrutor
 //TODO: Considerar caso de entradas de vértices negativos
 Graph::Graph(int v){ //Construtor
@@ -157,14 +160,6 @@ void Graph::print(){//função para impressão da matriz de adjacência
 
 //Algoritmos
 Graph Graph::mst(int start){
-    vector<int> testeConexo;
-    for(int o = 0; o<vertices; o++){
-      testeConexo.push_back(0);
-    }
-    for(o = 0; o<vertices; o++){//necessária mas não suficiente
-      if(adjMatrix[o] == testeConexo)
-    }
-
 
 
   int current = start; // inicia a montagem da árvore pelo valor passado
@@ -344,28 +339,66 @@ void Graph::dfsAux(int v, bool ** explored, bool * visited, vector<int> & adjace
 
 }
 
+vector<int> Graph::dijkstra(int start, int end){
 
 
 
-void Graph::dijkstra(int start, int end){
-  int dt[vertices];
-  int rot[vertices];
-  dt[0] = 0;
-  rot[0] = INT_MAX;
-  for(int i = 1; i<vertices; i++){
+  int dt[end]; //vetor com os menores caminhos até o vértice de cada elemento
+  int rot[end]; // vetor com o antecessor no menor caminho até ele
+
+//inicialização dos vetores acima
+  dt[start] = 1;
+  rot[start] = INT_MAX;
+  for(int i = start+1; i<end; i++){
     dt[i] = INT_MAX;
     rot[i] = 0;
   }
 
-  vector<int> open;
-  vector<int> closed;
-  for(i = 0; i<vertices; i++0){
-    open.push_back(i);
+  //ESTRUTURAS DE MARCAÇÃO
+  bool open[end];//valores não olhados
+  bool closed[end];//valores olhados
+
+
+  int mindt = INT_MAX; //variável auxiliar para encontrar o menor dt
+  int minVert; //variável auxiliar para guardar o menor vértice
+  int whileCond = 0; // variável auxiliar para testar o while
+  int minFinal; // variável auxiliar para decidir modificar o dt atual
+  vector<int> adjacents;//vetor de adjacentes do vértice atual
+
+
+
+  while (whileCond!=end) {
+
+    for(int j=start;j<end;j++){ //encontra o menor dt dentre os valores presentes em A.
+      if(open[j] == false){ // j existe em open(considera-se falso por facilidade de incialização)
+        mindt = min(mindt,dt[j]);
+        minVert = j;
+      }
+    }
+
+    open[minVert] = true; //removido de open
+    closed[minVert] = true; //incluído em closed, true por facilidade de inicialização
+
+    for(int k = start; k< end; k++){
+			if((adjMatrix[minVert][k] != 0)&&(closed[k]==false)){
+				adjacents.push_back(k);//conjunto dos vértices adjacentes ao vértices atual que não estão em closed
+        minFinal = min(dt[k], dt[minVert]+adjMatrix[minVert][k]);
+        if(minFinal < dt[k]){
+          dt[k] = minFinal;
+          rot[k] = minVert;
+        }
+			 }
+  		}
+
+
+
+    mindt = INT_MAX; //reset da variável de teste
+    for(int l = start; l<end; l++){ //Condição para saída do while
+      if(open[l]==true){
+        whileCond++;
+      }
+    }
   }
-
-
-
-
-
+  
 
 }

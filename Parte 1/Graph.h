@@ -20,7 +20,6 @@ public:
   int modifiyEdge(int a, int b, int c);//modifica os atributos da aresta
 };
 
-
 class Graph{ // Classe do grafo
   int vertices;
   int edges;
@@ -43,7 +42,7 @@ public:
   vector<int> bfs(int start = 0); //Realiza a busca em largura
   vector<int> dfs(int v = 0);
   void dfsAux(int v, bool ** explored, bool * visited, vector<int> &adjacents);
-  void dijkstra(int start, int end);
+  vector<int> dijkstra(int start, int end);
 
   };
 
