@@ -35,13 +35,18 @@ int Edge::modifiyEdge(int a, int b, int c){
 //TODO: Considerar caso de entradas de vértices negativos
 Graph::Graph(int v){ //Construtor
     vertices = v;
+    visited = new bool[v];
     adjMatrix.resize(vertices, vector<int>(vertices,0));
     for(int i=0; i<vertices;i++){//print de teste só pra ver se tamo safe
+      visited[v] = false;
       for(int j=0; j<vertices; j++){
         cout << "Elemento"<< i << j << ":";
         cout  << " " << adjMatrix[i][j] <<" "<<endl;
       }
     }
+
+    neighbors = 0;
+
 
   }
 Graph::~Graph(){//Destrutor
@@ -279,65 +284,58 @@ vector<int> Graph::bfs(int start){
 }
 
 vector<int> Graph::dfs(int v){
-  cout <<"welcome to the function" << endl;
-  bool* visited; //vértices visitados
-   visited = new bool[vertices];
-
-   bool** explored; //arestas exploradas
-  explored = new bool* [vertices];
-  for(int i = 0; i<vertices; i++){
-    explored[i] = new bool[vertices];
-  }
-  static vector<int> dfs;
-  vector<int> adjacents;//vetor de adjacentes do vértice atual
+  cout <<"welcome to the function " << endl;
 
 
-  for(int i = 0; i< vertices; i++){
-    if(adjMatrix[v][i] != 0){
-      adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+    visited[v]=true;
+    cout<<"visitados: " << endl;
+    for(int t = 0; t<vertices; t++){
+      cout<<visited[t] <<" ";
     }
-  }
 
 
-  this->dfsAux(v, explored, visited, adjacents);
+    neighbors = 0;
+    for(int k = 0; k<vertices; k++){ //encontrou os vizinhos do vértice V não marcados
+      if(adjMatrix[v][k]!=0 && (!visited[k])){
+
+        neighbors++;
+      }
+    }
+    cout <<"numero de visinhos não marcados " << neighbors << endl;
+
+    cout <<"Analisando o vértice" << v << endl;
+    dfsVec.push_back(v);
+    for(int i=0;i<vertices;i++){
+      cout<<"ponto " << i << endl;
+        if((!visited[i])&&(adjMatrix[v][i]!=0)){
+          cout<<"Arvore construída ";
+          for(int t = 0; t<dfsVec.size(); t++){
+             cout<<dfsVec.at(t) <<" ";
+          }
+          cout << endl;
+          cout <<"Chamada recursiva" << endl;
+
+          this->dfs(i);
+
+      }
+    }
 
 
-    if(dfs.size() == vertices){
-
-      delete visited;
-      for (int j = 0; j < vertices; j++)
-        delete [] explored[j];
-      delete [] explored;
-      return dfs;
-
+    if(dfsVec.size() == vertices){
+      cout << "Entrou no retorno";
+      vector<int> v = dfsVec;
+      dfsVec.clear();
+      return v;
     }
 }
 
-void Graph::dfsAux(int v, bool ** explored, bool * visited, vector<int> & adjacents){
-    int neighbor;
-    visited[v] = true;
-    while(!adjacents.empty()){
-      neighbor = adjacents.back();
-      adjacents.pop_back();
-      if(!visited[neighbor]){
-        explored[v][neighbor] = true;
-        explored[neighbor][v] = true;
-        visited[neighbor] = true;
-        this->dfs(neighbor);
-      }
-      else{
-        if(!explored[v][neighbor]){
-          explored[v][neighbor] = true;
-          explored[neighbor][v] = true;
-        }
-      }
-
-
-    }
 
 
 
-}
+
+
+
+
 
 vector<int> Graph::dijkstra(int start, int end){
 
@@ -367,7 +365,7 @@ vector<int> Graph::dijkstra(int start, int end){
 
 
 
-    while (whileCond != end) {
+  while (whileCond != end) {
     cout<< "Entrou no while" << endl;
 
     for(int j=start;j<end;j++){ //encontra o menor dt dentre os valores presentes em A.
@@ -408,4 +406,5 @@ vector<int> Graph::dijkstra(int start, int end){
   reverse(toReturn.begin(), toReturn.end());
   toReturn.push_back(dt[end]);
   return toReturn;
+
 }

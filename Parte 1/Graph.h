@@ -13,6 +13,7 @@ using namespace std;
 class Edge{ // classe das arestas do grafo
 int v1, v2;
 int w;
+
 public:
   Edge(int a, int b, int c);
   vector<int> getPoints() const; // função de interfaceamento dos vértices da aresta
@@ -24,6 +25,11 @@ class Graph{ // Classe do grafo
   int vertices;
   int edges;
   vector < vector < int > > adjMatrix;
+
+  //esrtuturas para dfs
+  bool * visited; //para dfs
+  vector<int> dfsVec; // retorno de dfs
+  int neighbors;
 public:
 
   Graph(int v); //Construtor

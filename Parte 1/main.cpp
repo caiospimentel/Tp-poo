@@ -51,8 +51,7 @@ boulos = teste.mst();
 
 cout << "terras expropriadas";
 
-boulos.print(); */
-/*teste bsf/dsf
+boulos.print(); *///teste bsf/dsf
   Edge A(0,1,1);
   Edge B(0,2,1);
   Edge C(1,2,1);
@@ -68,7 +67,7 @@ boulos.print(); */
 
 
 
-  Graph teste(7);//grafo com 3 vétices(0,1,2..6)
+  Graph teste(7);
   cout << '\n';
   teste.insert(A);
   teste.insert(B);
@@ -88,8 +87,10 @@ cout<<"antes de chamar dfs";
   for(int i = 0; i<7; i++){
     cout << v.at(i) << endl;
   }
-*/
 
+
+
+/* teste dijkstra
 
 Graph teste(10);
 
@@ -144,7 +145,7 @@ for(int i = 0; i<v.size(); i++){
 }
 
 cout<<endl;
-
+*/
 
 
 
