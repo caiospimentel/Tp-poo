@@ -345,8 +345,8 @@ vector<int> Graph::dijkstra(int start, int end){
 
   int dt[end]; //vetor com os menores caminhos até o vértice de cada elemento
   int rot[end]; // vetor com o antecessor no menor caminho até ele
-
-//inicialização dos vetores acima
+  vector<int> toReturn;
+  //inicialização dos vetores acima
   dt[start] = 1;
   rot[start] = INT_MAX;
   for(int i = start+1; i<end; i++){
@@ -363,11 +363,12 @@ vector<int> Graph::dijkstra(int start, int end){
   int minVert; //variável auxiliar para guardar o menor vértice
   int whileCond = 0; // variável auxiliar para testar o while
   int minFinal; // variável auxiliar para decidir modificar o dt atual
-  vector<int> adjacents;//vetor de adjacentes do vértice atual
 
 
 
-  while (whileCond!=end) {
+
+    while (whileCond != end) {
+    cout<< "Entrou no while" << endl;
 
     for(int j=start;j<end;j++){ //encontra o menor dt dentre os valores presentes em A.
       if(open[j] == false){ // j existe em open(considera-se falso por facilidade de incialização)
@@ -375,13 +376,12 @@ vector<int> Graph::dijkstra(int start, int end){
         minVert = j;
       }
     }
-
+    cout<<"Encontrou o mínimo" << endl;
     open[minVert] = true; //removido de open
     closed[minVert] = true; //incluído em closed, true por facilidade de inicialização
 
     for(int k = start; k< end; k++){
 			if((adjMatrix[minVert][k] != 0)&&(closed[k]==false)){
-				adjacents.push_back(k);//conjunto dos vértices adjacentes ao vértices atual que não estão em closed
         minFinal = min(dt[k], dt[minVert]+adjMatrix[minVert][k]);
         if(minFinal < dt[k]){
           dt[k] = minFinal;
@@ -389,16 +389,23 @@ vector<int> Graph::dijkstra(int start, int end){
         }
 			 }
   		}
+      cout<<"Comparou o mínimo com o valor de dt/rot"<<endl;
 
-
-
+    whileCond = 0;
     mindt = INT_MAX; //reset da variável de teste
     for(int l = start; l<end; l++){ //Condição para saída do while
       if(open[l]==true){
+        cout<<"Incrementou whileCond"<<endl;
         whileCond++;
       }
     }
-  }
-  
 
+  }
+
+  for(int r = start; r<end; r++){
+    toReturn.push_back(rot[r]);
+  }
+  reverse(toReturn.begin(), toReturn.end());
+  toReturn.push_back(dt[end]);
+  return toReturn;
 }

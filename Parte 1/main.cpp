@@ -52,7 +52,7 @@ boulos = teste.mst();
 cout << "terras expropriadas";
 
 boulos.print(); */
-
+/*teste bsf/dsf
   Edge A(0,1,1);
   Edge B(0,2,1);
   Edge C(1,2,1);
@@ -88,8 +88,62 @@ cout<<"antes de chamar dfs";
   for(int i = 0; i<7; i++){
     cout << v.at(i) << endl;
   }
+*/
 
 
+Graph teste(10);
+
+Edge um(0,1,60);
+Edge dois(0,2,54);
+Edge tres(0,3,42);
+Edge quatro(1,3,71);
+Edge cinco(1,5,29);
+Edge seis(2,3,56);
+Edge sete(2,4,67);
+Edge oito(3,4,26);
+Edge nove(3,5,52);
+Edge dez(3,6,87);
+Edge onze(4,6,70);
+Edge doze(4,8,73);
+Edge faltou(5,6,20);
+Edge treze(5,7,25);
+Edge quatorze(6,7,36);
+Edge quinze(6,8,59);
+Edge dezesseis(6,9,32);
+Edge dezessete(7,9,25);
+Edge dezoito(8,9,26);
+
+teste.insert(um);
+teste.insert(dois);
+teste.insert(tres);
+teste.insert(quatro);
+teste.insert(cinco);
+teste.insert(seis);
+teste.insert(sete);
+teste.insert(oito);
+teste.insert(nove);
+teste.insert(dez);
+teste.insert(onze);
+teste.insert(doze);
+teste.insert(treze);
+teste.insert(quatorze);
+teste.insert(quinze);
+teste.insert(dezesseis);
+teste.insert(dezessete);
+teste.insert(dezoito);
+teste.insert(faltou);
+
+
+teste.print();
+
+vector<int> v;
+v = teste.dijkstra(0,9);
+
+for(int i = 0; i<v.size(); i++){
+  cout << v.at(i);
+}
+
+cout<<endl;
 
 
 
