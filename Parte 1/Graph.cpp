@@ -308,6 +308,10 @@ vector<int> Graph::dfs(int v){
     for(int i=0;i<vertices;i++){
       cout<<"ponto " << i << endl;
         if((!visited[i])&&(adjMatrix[v][i]!=0)){
+          cout<< "Ponteiro da matriz " <<&adjMatrix[v][i] << endl;
+          cout<< "Ponteiro de visitados " <<&visited[i] << endl;
+
+
           cout<<"Arvore construída ";
           for(int t = 0; t<dfsVec.size(); t++){
              cout<<dfsVec.at(t) <<" ";
@@ -339,22 +343,20 @@ vector<int> Graph::dfs(int v){
 
 vector<int> Graph::dijkstra(int start, int end){
 
-
-
-  int dt[end]; //vetor com os menores caminhos até o vértice de cada elemento
-  int rot[end]; // vetor com o antecessor no menor caminho até ele
+  int dt[vertices]; //vetor com os menores caminhos até o vértice de cada elemento
+  int rot[vertices]; // vetor com o antecessor no menor caminho até ele
   vector<int> toReturn;
   //inicialização dos vetores acima
-  dt[start] = 1;
-  rot[start] = INT_MAX;
-  for(int i = start+1; i<end; i++){
+  dt[0] = 1;
+  rot[0] = INT_MAX;
+  for(int i = 1; i<vertices; i++){
     dt[i] = INT_MAX;
     rot[i] = 0;
   }
 
   //ESTRUTURAS DE MARCAÇÃO
-  bool open[end];//valores não olhados
-  bool closed[end];//valores olhados
+  bool open[vertices];//valores não olhados
+  bool closed[vertices];//valores olhados
 
 
   int mindt = INT_MAX; //variável auxiliar para encontrar o menor dt
@@ -368,17 +370,20 @@ vector<int> Graph::dijkstra(int start, int end){
   while (whileCond != end) {
     cout<< "Entrou no while" << endl;
 
-    for(int j=start;j<end;j++){ //encontra o menor dt dentre os valores presentes em A.
+    for(int j=0;j<vertices;j++){ //encontra o menor dt dentre os valores presentes em A.
       if(open[j] == false){ // j existe em open(considera-se falso por facilidade de incialização)
-        mindt = min(mindt,dt[j]);
-        minVert = j;
+        if(mindt > dt[j]){
+          mindt = dt[j];
+          minVert = j;
+        }
       }
     }
-    cout<<"Encontrou o mínimo" << endl;
+    cout<<"Encontrou o mínimo:" << mindt << " No vértice " << minVert << endl;
+
     open[minVert] = true; //removido de open
     closed[minVert] = true; //incluído em closed, true por facilidade de inicialização
 
-    for(int k = start; k< end; k++){
+    for(int k = 0; k< vertices; k++){ //Examina todos os adjacentes que não estão em closed
 			if((adjMatrix[minVert][k] != 0)&&(closed[k]==false)){
         minFinal = min(dt[k], dt[minVert]+adjMatrix[minVert][k]);
         if(minFinal < dt[k]){
@@ -391,7 +396,7 @@ vector<int> Graph::dijkstra(int start, int end){
 
     whileCond = 0;
     mindt = INT_MAX; //reset da variável de teste
-    for(int l = start; l<end; l++){ //Condição para saída do while
+    for(int l = 0; l<vertices; l++){ //Condição para saída do while
       if(open[l]==true){
         cout<<"Incrementou whileCond"<<endl;
         whileCond++;
@@ -399,11 +404,14 @@ vector<int> Graph::dijkstra(int start, int end){
     }
 
   }
+  int aux = end;
+  while(aux != 0){
+    aux = rot[aux];
+    cout<<"Valor no rot " << aux << endl;
+    toReturn.push_back(aux);
 
-  for(int r = start; r<end; r++){
-    toReturn.push_back(rot[r]);
   }
-  reverse(toReturn.begin(), toReturn.end());
+
   toReturn.push_back(dt[end]);
   return toReturn;
 
