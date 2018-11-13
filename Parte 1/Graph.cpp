@@ -347,9 +347,9 @@ vector<int> Graph::dijkstra(int start, int end){
   int rot[vertices]; // vetor com o antecessor no menor caminho até ele
   vector<int> toReturn;
   //inicialização dos vetores acima
-  dt[0] = 0;
-  rot[0] = INT_MAX;
-  for(int i = 1; i<vertices; i++){
+  dt[start] = 0;
+  rot[start] = INT_MAX;
+  for(int i = start+1; i<vertices; i++){
     dt[i] = INT_MAX;
     rot[i] = 0;
   }
@@ -367,10 +367,10 @@ vector<int> Graph::dijkstra(int start, int end){
 
 
 
-  while (whileCond != vertices) {
+  while (whileCond != vertices-start) {
     cout<< "Entrou no while" << endl;
 
-    for(int j=0;j<vertices;j++){ //encontra o menor dt dentre os valores presentes em A.
+    for(int j=start;j<vertices;j++){ //encontra o menor dt dentre os valores presentes em A.
       if(open[j] == false){ // j existe em open(considera-se falso por facilidade de incialização)
         if(mindt > dt[j]){
           mindt = dt[j];
@@ -383,7 +383,7 @@ vector<int> Graph::dijkstra(int start, int end){
     open[minVert] = true; //removido de open
     closed[minVert] = true; //incluído em closed, true por facilidade de inicialização
 
-    for(int k = 0; k< vertices; k++){ //Examina todos os adjacentes que não estão em closed
+    for(int k = start; k< vertices; k++){ //Examina todos os adjacentes que não estão em closed
 			if((adjMatrix[minVert][k] != 0)&&(closed[k]==false)){
         minFinal = min(dt[k], dt[minVert]+adjMatrix[minVert][k]);
         if(minFinal < dt[k]){
@@ -396,7 +396,7 @@ vector<int> Graph::dijkstra(int start, int end){
 
     whileCond = 0;
     mindt = INT_MAX; //reset da variável de teste
-    for(int l = 0; l<vertices; l++){ //Condição para saída do while
+    for(int l = start; l<vertices; l++){ //Condição para saída do while
       if(open[l]==true){
         cout<<"Incrementou whileCond"<<endl;
         whileCond++;
@@ -406,12 +406,14 @@ vector<int> Graph::dijkstra(int start, int end){
   }
 
   int aux = end;
+  toReturn.push_back(aux);
   while(aux != start){
     aux = rot[aux];
     cout<<"Valor no rot " << aux << endl;
     toReturn.push_back(aux);
 
   }
+  reverse(toReturn.begin(),toReturn.end());
 
   toReturn.push_back(dt[end]);
   return toReturn;
