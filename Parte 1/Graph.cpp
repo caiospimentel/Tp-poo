@@ -347,7 +347,7 @@ vector<int> Graph::dijkstra(int start, int end){
   int rot[vertices]; // vetor com o antecessor no menor caminho até ele
   vector<int> toReturn;
   //inicialização dos vetores acima
-  dt[0] = 1;
+  dt[0] = 0;
   rot[0] = INT_MAX;
   for(int i = 1; i<vertices; i++){
     dt[i] = INT_MAX;
@@ -367,7 +367,7 @@ vector<int> Graph::dijkstra(int start, int end){
 
 
 
-  while (whileCond != end) {
+  while (whileCond != vertices) {
     cout<< "Entrou no while" << endl;
 
     for(int j=0;j<vertices;j++){ //encontra o menor dt dentre os valores presentes em A.
@@ -404,8 +404,9 @@ vector<int> Graph::dijkstra(int start, int end){
     }
 
   }
+
   int aux = end;
-  while(aux != 0){
+  while(aux != start){
     aux = rot[aux];
     cout<<"Valor no rot " << aux << endl;
     toReturn.push_back(aux);

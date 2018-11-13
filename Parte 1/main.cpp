@@ -139,7 +139,7 @@ teste.insert(faltou);
 teste.print();
 
 vector<int> v;
-v = teste.dijkstra(0,9);
+v = teste.dijkstra(3,9);
 
 for(int i = 0; i<v.size(); i++){
   cout << v.at(i)<<endl;
