@@ -91,7 +91,7 @@ cout<<"antes de chamar dfs";
 */
 
 
-
+/* //teste dijkstra
 
 Graph teste(10);
 
@@ -139,7 +139,7 @@ teste.insert(faltou);
 teste.print();
 
 vector<int> v;
-v = teste.dijkstra(3,7);
+v = teste.dijkstra(0,9);
 
 for(int i = 0; i<v.size(); i++){
   cout << v.at(i)<<endl;
@@ -148,19 +148,37 @@ for(int i = 0; i<v.size(); i++){
 cout<<endl;
 
 
+*/
+
+//teste Caixeiro
+
+
+Graph teste(4);
 
 
 
+Edge A(0,1,10);
+Edge B(0,2,15);
+Edge C(0,3,20);
+Edge D(1,2,35);
+Edge E(1,3,25);
+Edge F(2,3,30);
 
+teste.insert(A);
+teste.insert(B);
+teste.insert(C);
+teste.insert(D);
+teste.insert(E);
+teste.insert(F);
 
+teste.print();
 
-
-
-
-
-
-
-
+vector<int> v;
+cout <<"Chanou caixeiro" << endl;
+v = teste.travSales(3);
+for(int i = 0; i<v.size(); i++){
+  cout << v.at(i)<<endl;
+}
 
 
 

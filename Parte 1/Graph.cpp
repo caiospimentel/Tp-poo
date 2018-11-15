@@ -2,9 +2,6 @@
 
 using namespace std;
 
-
-
-
 //Métodos relativos às arestas
 Edge::Edge(int a, int b, int c){
   v1 = a;
@@ -28,9 +25,6 @@ int Edge::modifiyEdge(int a, int b, int c){
   w = c;
 }
 
-//Métodos para a implementação de Dijsktra
-
-
 //Construtor e Destrutor
 //TODO: Considerar caso de entradas de vértices negativos
 Graph::Graph(int v){ //Construtor
@@ -53,7 +47,6 @@ Graph::~Graph(){//Destrutor
   cout <<"Destrutor chamado";
     adjMatrix.clear();
   }
-
 
 //Métodos de Manipulação da estrutura de dados
 //TODO: Considerar caso de entradas de vértices negativos
@@ -162,10 +155,8 @@ void Graph::print(){//função para impressão da matriz de adjacência
   cout<<endl;
 }
 
-
 //Algoritmos
 Graph Graph::mst(int start){
-
 
   int current = start; // inicia a montagem da árvore pelo valor passado
   vector<int> mstBeen, mstLack;//estruturar para guardar os vértices percorridos, não percorridos
@@ -177,8 +168,6 @@ Graph Graph::mst(int start){
 
 
   Edge menorAresta(0,0,INT_MAX); //VALORES ARBITRÁTIOS PARA INICIALIZAR
-
-
 
   vector<int> vaux; //vetor auxiliar para receber os vértices da menor aresta, atributos privados da classe Edge
   while(!mstLack.empty()){ // fica preso infinitamente, precisa resolver
@@ -214,24 +203,16 @@ Graph Graph::mst(int start){
             mstLack.erase(mstLack.begin()+m);//lack nunca está esvaziando
             break;
           }
-
         }
-
         mst.insert(menorAresta);
         menorAresta.modifiyEdge(0,0,INT_MAX);
       }
 
-
-
-
-
       return mst;
-
 }
 
 vector<int> Graph::bfs(int start){
   vector<int> bfs;
-
   queue<int> queue; //lista de controle
   vector<int> adjacents;//vetor de adjacentes do vértice atual
 	bool visited[vertices]; //vértices visitados
@@ -249,18 +230,14 @@ vector<int> Graph::bfs(int start){
 		queue.pop();// remove da fila
 		bfs.push_back(current); // adiciona no vetor de retorno da busca
 
-
 		for(int i = 0; i< vertices; i++){
 			if(adjMatrix[current][i] != 0){
-
 				adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
 			}
-
 		}
+
 		while(!adjacents.empty()){
-
       neighbor = adjacents.back();//pega o vizinho do atual
-
       adjacents.pop_back();//remove o vizinho do conjunto de adjacentes para fins de loop
 			if(visited[neighbor] == false){
 			     explored[current][neighbor] = true;//Explora a aresta entre os dois nós.
@@ -273,13 +250,8 @@ vector<int> Graph::bfs(int start){
 					explored[current][neighbor];
 					explored[neighbor][current];
 				}
-
-
-
 		}
-
 	}
-
 	return bfs;
 }
 
@@ -333,16 +305,7 @@ vector<int> Graph::dfs(int v){
     }
 }
 
-
-
-
-
-
-
-
-
 vector<int> Graph::dijkstra(int start, int end){
-
   int dt[vertices]; //vetor com os menores caminhos até o vértice de cada elemento
   int rot[vertices]; // vetor com o antecessor no menor caminho até ele
   vector<int> toReturn;
@@ -358,14 +321,10 @@ vector<int> Graph::dijkstra(int start, int end){
   bool open[vertices];//valores não olhados
   bool closed[vertices];//valores olhados
 
-
   int mindt = INT_MAX; //variável auxiliar para encontrar o menor dt
   int minVert; //variável auxiliar para guardar o menor vértice
   int whileCond = 0; // variável auxiliar para testar o while
   int minFinal; // variável auxiliar para decidir modificar o dt atual
-
-
-
 
   while (whileCond != vertices-start) {
     cout<< "Entrou no while" << endl;
@@ -402,7 +361,6 @@ vector<int> Graph::dijkstra(int start, int end){
         whileCond++;
       }
     }
-
   }
 
   int aux = end;
@@ -411,11 +369,58 @@ vector<int> Graph::dijkstra(int start, int end){
     aux = rot[aux];
     cout<<"Valor no rot " << aux << endl;
     toReturn.push_back(aux);
-
   }
-  reverse(toReturn.begin(),toReturn.end());
-
-  toReturn.push_back(dt[end]);
+  reverse(toReturn.begin(),toReturn.end()); //coloca os valores dos vértices em ordem crescente
+  toReturn.push_back(dt[end]); //adiciona o comprimento do caminho no final do vetor
   return toReturn;
+}
+
+vector<int> Graph::travSales(int start){
+
+  vector<int> vert;
+  vector<int> path;
+  vector<int> minPath;
+  for(int i = 0; i<vertices; i++){
+
+    if(i != start){//coloca todos os vértices menos o inicial no vetor
+
+      vert.push_back(i);
+    }
+  }
+
+  int minRt= INT_MAX;
+
+
+  do {
+
+        int current = 0; // caminho atual;
+        path.clear();
+
+        int  next = start;
+        path.push_back(start);
+        for (int i = 0; i < vert.size(); i++) {
+          cout << "o atual sendo observado é:" << current<<endl;
+            current = current + adjMatrix[next][vert[i]];
+            next = vert.at(i);
+            path.push_back(next);
+        }
+        path.push_back(start);
+        current = current + adjMatrix[next][start];
+        cout << "Caminho atual calculado é: "<< current << endl;
+
+        if(minRt > current){
+          cout <<" minimo maior que o atual" << endl;
+          minRt = current;
+          minPath = path;
+
+        }
+
+
+    } while (next_permutation(vert.begin(), vert.end()));
+
+
+    minPath.push_back(minRt);
+    return minPath;
+
 
 }

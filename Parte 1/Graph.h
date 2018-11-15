@@ -8,6 +8,7 @@
 #include <climits>
 #include <queue>
 
+
 using namespace std;
 
 class Edge{ // classe das arestas do grafo
@@ -49,6 +50,7 @@ public:
   vector<int> dfs(int v = 0);
   void dfsAux(int v, bool ** explored, bool * visited, vector<int> &adjacents);
   vector<int> dijkstra(int start, int end);
+  vector<int> travSales(int start);
 
   };
 
