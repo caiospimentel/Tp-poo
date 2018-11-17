@@ -3,7 +3,7 @@
 using namespace std;
 
 //Métodos relativos às arestas
-Edge::Edge(int a, int b, int c){
+Edge::Edge(int a, int b, int c){//Construtor
   if(b<a){ //caso o segundo vértice seja menor que o primeiro, coloca ele antes na aresta
     v1 = b;
     v2 = a;
@@ -54,7 +54,7 @@ Graph::~Graph(){//Destrutor
   }
 
 //Métodos de Manipulação da estrutura de dados
-bool Graph::insert(const Edge& a){
+bool Graph::insert(const Edge& a){//Método para adicionar uma aresta no grafo
 
     vector<int> v = a.getPoints(); // vetor v recebe os vértices inicial e final da areata
     int w = a.getWeight(); // w receve o peso da aresta
@@ -79,8 +79,8 @@ bool Graph::insert(const Edge& a){
     else{ //aresta já se econtra no grafo
       return false;
     }
-  }//Método para adicionar uma aresta no grafo
-bool Graph::remove(const Edge& a){
+  }
+bool Graph::remove(const Edge& a){//Método para remover uma aresta do grafo
     vector<int> v = a.getPoints(); // vetor v recebe os vértices inicial e final da areata
     int w = a.getWeight(); // w receve o peso da aresta
     if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vétice não presente no grafo
@@ -101,16 +101,16 @@ bool Graph::remove(const Edge& a){
     else{ //aresta não se encontra no grafo
       return false;
     }
-  }//Método para remover uma aresta do grafo
-int Graph::numberVertices(){
+  }
+int Graph::numberVertices(){//Método para acessar a quantidade de vértices
     return vertices;
-  }//Método para acessar a quantidade de vértices
-int Graph::numberEdges(){
+  }
+int Graph::numberEdges(){//Método para acessar a quantidade de arestas
     return edges;
-  }//Método para acessar a quantidade de arestas
+  }
 bool Graph::edge(const Edge& a){ //Método para verificar se uma aresta está presente num grafo
     vector<int> v = a.getPoints(); // vetor v recebe os vértices inicial e final da areata
-    int w = a.getWeight();/ w receve o peso da aresta
+    int w = a.getWeight();// w receve o peso da aresta
     if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vértice não presente no grafo
       return false;
     }
@@ -124,7 +124,7 @@ bool Graph::edge(const Edge& a){ //Método para verificar se uma aresta está pr
 
 
   }
-bool Graph::isComplete(){
+bool Graph::isComplete(){//Método para testa se um grafo é completo
   //percorre a matriz de adjacencia
     for(int i = 0; i < vertices; i++){
       for(int j = 0; j < vertices; j++){
@@ -134,7 +134,7 @@ bool Graph::isComplete(){
       }
     }
     return true; // caso percorra toda a matriz sem encontrar zeros em i!=j, o grafo é completo
-  } //Método para testa se um grafo é completo
+  }
 void Graph::complete(){ //Método para completar um grafo
     if(isComplete()){//caso o grafo já esteja completo, não faz nada
       return;
@@ -216,7 +216,8 @@ Graph Graph::mst(int start){ //Método para criar uma árore geradora mínima pa
 
       return mst;
 }
-vector<int> Graph::bfs(int start){ //Método para realizar a busca em largura no grafo
+vector<int> Graph::bfs(){ //Método para realizar a busca em largura no grafo
+  int start = 0;
   vector<int> bfs; // vetor que retorna a busca em largura
   queue<int> queue; //lista de controle
   vector<int> adjacents;//vetor de adjacentes do vértice atual
@@ -261,7 +262,7 @@ vector<int> Graph::bfs(int start){ //Método para realizar a busca em largura no
 	}
 	return bfs; //retorna o vetor com os vértices na ordem da busca
 }
-vector<int> Graph::dfs(int v){
+vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no grafo
   cout <<"welcome to the function " << endl;
 
 
@@ -303,13 +304,13 @@ vector<int> Graph::dfs(int v){
     }
 
 
-    if(dfsVec.size() == vertices){
+    if(dfsVec.size() == vertices && v == *dfsVec.begin()){
       cout << "Entrou no retorno";
       vector<int> v = dfsVec;
-      dfsVec.clear();
+      
       return v;
     }
-}//Método para realizar a busca em proundidade no grafo
+}
 vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o menor caminho entre dois vértices pelo algoritmo de dijkstra
   int dt[vertices]; //vetor com os menores caminhos até o vértice de cada elemento
   int rot[vertices]; // vetor com o antecessor no menor caminho até ele
@@ -397,28 +398,29 @@ vector<int> Graph::travSales(int start){ //Método para resolver o problema do c
   }
 
   int minRt= INT_MAX; //cria uma variável de teste para a menor rota(soma dos pesos) inicializada com o maior inteirom  para comparação
-
+  int currentRt;
+  int next;
 
   do {
-        int current = 0; // rota atual;
+        currentRt = 0; // rota atual;
         path.clear(); //limpa o caminho atual
 
-        int  next = start; //inicializa o próximo com o inicial para começar a passar pelo grafo
+        next = start; //inicializa o próximo com o inicial para começar a passar pelo grafo
         path.push_back(start); // coloca no caminho o inicial
         for (int i = 0; i < vert.size(); i++) { //percorre os vértices
-          cout << "o atual sendo observado é:" << current<<endl;
-            current = current + adjMatrix[next][vert[i]]; //adiciona a rota atual percorrendo a matriz de adjacencia
+
+            currentRt = currentRt + adjMatrix[next][vert[i]]; //adiciona a rota atual percorrendo a matriz de adjacencia
             next = vert.at(i); // coloca o pŕoximo valor da matriz em next
             path.push_back(next); // adiciona o vértice no caminho
         }
-        current = current + adjMatrix[next][start]; // adiciona na rota a distância do ponto final ao inicial
+        currentRt = currentRt + adjMatrix[next][start]; // adiciona na rota a distância do ponto final ao inicial
         path.push_back(start); // coloca o inicial no caminho após completar a volta
 
-        cout << "Caminho atual calculado é: "<< current << endl;
 
-        if(minRt > current){ //caso a rota calculada seja menor que a salva, troca
+
+        if(minRt > currentRt){ //caso a rota calculada seja menor que a salva, troca
           cout <<" minimo maior que o atual" << endl;
-          minRt = current;
+          minRt = currentRt;
           minPath = path;
 
         }
