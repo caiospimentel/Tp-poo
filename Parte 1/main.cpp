@@ -54,7 +54,7 @@ boulos = teste.mst();
 cout << "terras expropriadas";
 
 boulos.print(); //teste bsf/dsf
-*/
+*/ /*
   Edge A(0,1,1);
   Edge B(0,2,1);
   Edge C(1,2,1);
@@ -91,7 +91,7 @@ cout<<"antes de chamar dfs";
     cout << v.at(i) << endl;
   }
 
-
+*/
 
 /* //teste dijkstra
 
@@ -188,6 +188,27 @@ for(int i = 0; i<v.size(); i++){
 
 */
 
+Graph teste(6);
+
+
+
+Edge A(0,1,1);
+Edge B(2,3,1);
+Edge C(4,5,1);
+
+
+teste.insert(A);
+teste.insert(B);
+teste.insert(C);
+
+
+teste.print();
+
+int componentes = teste.connected();
+
+cout << "O número de componentes conexas é " <<endl;
+
+
 
 
 /*
@@ -252,7 +273,7 @@ cout << "Busca em profundidade" << endl;
 
 for(int i = 0; i<dsf.size(); i++){
   cout << dsf.at(i)<<endl;
-} 
+}
 
 cout << "Algoritmo de Dijktra" << endl;
 

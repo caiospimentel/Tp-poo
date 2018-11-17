@@ -181,19 +181,13 @@ Graph Graph::mst(int start){ //Método para criar uma árore geradora mínima pa
 
       for(int iterator = 0; iterator<mstBeen.size();iterator++){ // procura a menor aresta que sai do conjunto
         current = mstBeen.at(iterator); //passa por todos os vértices em que já esteve
-        cout << "o vértcies que está sendo olhado " << current << endl;
-
         for(int j=0;j<vertices;j++){
           if(adjMatrix[current][j] == 0){ //caso o peso seja igual a zero, não há aresta
-            cout<< "continue do peso igual a zero" << endl;
             continue;}
           if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j(destino) nos vértices já percorridos e ignora
-            cout<< "continue de j já dentro de been" << endl;
             continue;}
           if(adjMatrix[current][j] < menorAresta.getWeight()){ // caso o valor atual seja menor que o salvo na menor aresta
               menorAresta.modifiyEdge(current, j, adjMatrix.at(current).at(j));//coloca o valor da menor aresta encontrada no conjunto, saindo do atual até um destino j
-              cout<< "Menor aresta atual, peso: "<< menorAresta.getWeight() << endl;
-              cout<< "Origem :" << current<< "Destino :" << j << endl;
             }
           }
 
@@ -276,7 +270,6 @@ vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no 
     neighbors = 0;
     for(int k = 0; k<vertices; k++){ //encontrou os vizinhos do vértice V não marcados
       if(adjMatrix[v][k]!=0 && (!visited[k])){
-
         neighbors++;
       }
     }
@@ -307,9 +300,43 @@ vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no 
     if(dfsVec.size() == vertices && v == *dfsVec.begin()){
       cout << "Entrou no retorno";
       vector<int> v = dfsVec;
-      
+      dfsVec.clear();
       return v;
     }
+}
+
+
+int Graph::connected(){
+  vector<int> v = this->dfs();
+  bool marked[vertices];
+  int cntAmt = 1;
+  if(v.size() != vertices){
+    int start = 0;
+
+
+    while(start != vertices){
+
+      for(int i = start; i<vertices; i++){
+        if(find(v.begin(), v.end(), i) != v.end()){
+
+        }
+        else{
+            v.clear();
+            cntAmt++;
+            v = this->dfs(i);
+            start = i;
+        }
+
+      }
+
+
+    }
+    return cntAmt;
+  }
+  else{
+    return 1;
+  }
+
 }
 vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o menor caminho entre dois vértices pelo algoritmo de dijkstra
   int dt[vertices]; //vetor com os menores caminhos até o vértice de cada elemento

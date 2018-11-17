@@ -51,7 +51,7 @@ class Graph{ // Classe do grafo
   Graph mst(int start = 0); //Método para criar uma árore geradora mínima para o grafo
   vector<int> bfs(); //Método para realizar a busca em largura no grafo
   vector<int> dfs(int v = 0); //Método para realizar a busca em proundidade no grafo
-  void dfsAux(int v, bool ** explored, bool * visited, vector<int> &adjacents);
+  int connected();
   vector<int> dijkstra(int start, int end); //Método para encontrar o menor caminho entre dois vértices pelo algoritmo de dijkstra
   vector<int> travSales(int start=0); //Método para resolver o problema do caixeiro viajante à partir de um vértice inicial
 
