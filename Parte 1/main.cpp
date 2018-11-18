@@ -54,7 +54,7 @@ boulos = teste.mst();
 cout << "terras expropriadas";
 
 boulos.print(); //teste bsf/dsf
-*/ /*
+*//*
   Edge A(0,1,1);
   Edge B(0,2,1);
   Edge C(1,2,1);
@@ -187,7 +187,7 @@ for(int i = 0; i<v.size(); i++){
 
 
 */
-
+/*
 Graph teste(6);
 
 
@@ -206,12 +206,12 @@ teste.print();
 
 int componentes = teste.connected();
 
-cout << "O número de componentes conexas é " <<endl;
+cout << "O número de componentes conexas é " << componentes <<endl;
+
+*/
 
 
 
-
-/*
 
 ifstream in ("Grafo.txt");
 string buff;
@@ -269,10 +269,10 @@ for(int i = 0; i<bfs.size(); i++){
 
 cout << "Busca em profundidade" << endl;
 
-/*vector<int> dsf = a.dsf();
+vector<int> dfs = a.dfs();
 
-for(int i = 0; i<dsf.size(); i++){
-  cout << dsf.at(i)<<endl;
+for(int i = 0; i<dfs.size(); i++){
+  cout << dfs.at(i)<<endl;
 }
 
 cout << "Algoritmo de Dijktra" << endl;
@@ -290,7 +290,9 @@ for(int i = 0; i<tr.size(); i++){
   cout << tr.at(i)<<endl;
 }
 
-*/
+cout << "componentes conexas" << endl;
+ int componentes = a.connected();
+ cout << "# componentes :" << componentes << endl;
 
 
 

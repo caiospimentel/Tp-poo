@@ -177,7 +177,7 @@ Graph Graph::mst(int start){ //Método para criar uma árore geradora mínima pa
   Edge menorAresta(0,0,INT_MAX); //Valores arbitrários para inicialização e inteiro máximo para a comparação funcionar
 
   vector<int> vaux; //vetor auxiliar para receber os vértices da menor aresta, atributos privados da classe Edge
-  while(!mstLack.empty()){ // fica preso infinitamente, precisa resolver
+  while(!mstLack.empty()){
 
       for(int iterator = 0; iterator<mstBeen.size();iterator++){ // procura a menor aresta que sai do conjunto
         current = mstBeen.at(iterator); //passa por todos os vértices em que já esteve
@@ -307,24 +307,31 @@ vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no 
 
 
 int Graph::connected(){
+
   vector<int> v = this->dfs();
   bool marked[vertices];
   int cntAmt = 1;
+  bool aux;
   if(v.size() != vertices){
     int start = 0;
 
 
-    while(start != vertices){
+    while(aux){
 
       for(int i = start; i<vertices; i++){
         if(find(v.begin(), v.end(), i) != v.end()){
-
+          marked[i] = true;
         }
         else{
             v.clear();
             cntAmt++;
             v = this->dfs(i);
             start = i;
+            aux = marked[0];
+            for(int j=1; j < vertices; j++){
+              aux = (marked[j] |= marked [j-1]);
+
+            }
         }
 
       }
@@ -414,7 +421,7 @@ vector<int> Graph::travSales(int start){ //Método para resolver o problema do c
 
 
 
-  vector<int> vert; //Vértices a serem olhados
+  vector<int> vert; //Vértices a serem   olhados
   vector<int> path; //Menor caminho atual
   vector<int> minPath; //Menor caminho global
 
