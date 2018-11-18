@@ -49,7 +49,7 @@ class Graph{ // Classe do grafo
   void complete(); //Método para completar um grafo
   void print(); //função para impressão da matriz de adjacência
   Graph mst(int start = 0); //Método para criar uma árore geradora mínima para o grafo
-  vector<int> bfs(); //Método para realizar a busca em largura no grafo
+  vector<int> bfs(int start = 0); //Método para realizar a busca em largura no grafo
   vector<int> dfs(int v = 0); //Método para realizar a busca em proundidade no grafo
   int connected();
   vector<int> dijkstra(int start, int end); //Método para encontrar o menor caminho entre dois vértices pelo algoritmo de dijkstra

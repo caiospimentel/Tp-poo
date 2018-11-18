@@ -4,17 +4,17 @@ using namespace std;
 
 //Métodos relativos às arestas
 Edge::Edge(int a, int b, int c){//Construtor
-  if(b<a){ //caso o segundo vértice seja menor que o primeiro, coloca ele antes na aresta
+  if(b<a){ //caso o segundo vertice seja menor que o primeiro, coloca ele antes na aresta
     v1 = b;
     v2 = a;
   }
-  else{ //caso contrário, adiciona os vértices em ordem
+  else{ //caso contrário, adiciona os vertices em ordem
     v1 = a;
     v2 = b;
   }
   w = c;
-} //Construtor
-vector<int> Edge::getPoints() const { // Método para acessaros vértices da aresta
+}
+vector<int> Edge::getPoints() const { // Método para acessaros vertices da aresta
   vector<int> v;
   v.push_back(v1);
   v.push_back(v2);
@@ -31,19 +31,16 @@ int Edge::modifiyEdge(int a, int b, int c){//Método para modificar os atributos
 
 //Construtor e Destrutor
 Graph::Graph(int v){ //Construtor
-  if(v<=0){ //caso o número de vértices não seja um inteiro maior que zero
-    cout << "Quantidade de vértices invalida" << endl;
+  if(v<=0){ //caso o número de vertices nao seja um inteiro maior que zero
+    cout << "Quantidade de vertices invalida" << endl;
     return;
   }
     vertices = v;
+    edges = 0;
     visited = new bool[v];
-    adjMatrix.resize(vertices, vector<int>(vertices,0)); //Inicialização da matriz de adjacência com zeros
+    adjMatrix.resize(vertices, vector<int>(vertices,0)); //Inicializaçao da matriz de adjacência com zeros
     for(int i=0; i<vertices;i++){//print de teste só pra ver se tamo safe
       visited[v] = false;
-      for(int j=0; j<vertices; j++){
-        cout << "Elemento"<< i << j << ":";
-        cout  << " " << adjMatrix[i][j] <<" "<<endl;
-      }
     }
 
     neighbors = 0;
@@ -53,27 +50,30 @@ Graph::~Graph(){//Destrutor
     adjMatrix.clear(); //limpeza de memória
   }
 
-//Métodos de Manipulação da estrutura de dados
+//Métodos de Manipulaçao da estrutura de dados
 bool Graph::insert(const Edge& a){//Método para adicionar uma aresta no grafo
 
-    vector<int> v = a.getPoints(); // vetor v recebe os vértices inicial e final da areata
+    vector<int> v = a.getPoints(); // vetor v recebe os vertices inicial e final da areata
     int w = a.getWeight(); // w receve o peso da aresta
 
-    if ((v[0]> vertices) || (v[1]> vertices)){//verifica se colocar uma aresta num vértice não presente no grafo
-      cout<< "Vértice não está presente no grafo" << endl;
+    if ((v[0]> vertices) || (v[1]> vertices)){//verifica se colocar uma aresta num vertice nao presente no grafo
+      cout<< "Vertice nao esta presente no grafo" << endl;
       return false;
     }
-    if(v[0] == v[1]){//Verifica se tenta inserir um auto-ciclo, não permitido
-      cout << "Inserção inválida: vértice para ele mesmo" << endl;
+    if(v[0] == v[1]){//Verifica se tenta inserir um auto-ciclo, nao permitido
+      cout << "Inserçao inválida: vertice para ele mesmo" << endl;
       return false;
     }
     if(adjMatrix[v[0]][v[1]]!=w){ // nova aresta
+      if(adjMatrix[v[0]][v[1]] == 0){//caso seja uma aresta nova, nao somente uma alteraçao de peso, incrementa a quantidade de arestas
+        edges++;
+      }
+
       //altera os valores na matriz de adjacencia de forma simétrica
       adjMatrix.at(v[0]).at(v[1]) = w;
       adjMatrix.at(v[1]).at(v[0]) = w;
 
-      if(adjMatrix[v[0]][v[1]] == 0){//caso seja uma aresta nova, não somente uma alteração de peso, incrementa a quantidade de arestas
-        edges++;}
+
       return true;
     }
     else{ //aresta já se econtra no grafo
@@ -81,14 +81,14 @@ bool Graph::insert(const Edge& a){//Método para adicionar uma aresta no grafo
     }
   }
 bool Graph::remove(const Edge& a){//Método para remover uma aresta do grafo
-    vector<int> v = a.getPoints(); // vetor v recebe os vértices inicial e final da areata
+    vector<int> v = a.getPoints(); // vetor v recebe os vertices inicial e final da areata
     int w = a.getWeight(); // w receve o peso da aresta
-    if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vétice não presente no grafo
-      cout<<"Vertice não presente no grafo" << endl;
+    if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vétice nao presente no grafo
+      cout<<"Vertice nao presente no grafo" << endl;
       return false;
     }
     if(v[0] == v[1]){ //tenta remover um auto-ciclo, sempre inexistente
-      cout << "Remoção inválida: vértice para ele mesmo" << endl;
+      cout << "Remoçao invalida: vertice para ele mesmo" << endl;
       return false;
     }
     if(adjMatrix[v[0]][v[1]]==w){
@@ -98,23 +98,23 @@ bool Graph::remove(const Edge& a){//Método para remover uma aresta do grafo
       edges--; //decrementa a quantidade de arestas
       return true;
     }
-    else{ //aresta não se encontra no grafo
+    else{ //aresta nao se encontra no grafo
       return false;
     }
   }
-int Graph::numberVertices(){//Método para acessar a quantidade de vértices
+int Graph::numberVertices(){//Método para acessar a quantidade de vertices
     return vertices;
   }
 int Graph::numberEdges(){//Método para acessar a quantidade de arestas
     return edges;
   }
 bool Graph::edge(const Edge& a){ //Método para verificar se uma aresta está presente num grafo
-    vector<int> v = a.getPoints(); // vetor v recebe os vértices inicial e final da areata
+    vector<int> v = a.getPoints(); // vetor v recebe os vertices inicial e final da areata
     int w = a.getWeight();// w receve o peso da aresta
-    if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vértice não presente no grafo
+    if ((v[0]> vertices) || (v[1]> vertices)){//verifica se tenta utilizar um vertice nao presente no grafo
       return false;
     }
-    if(adjMatrix[v[0]][v[1]]!=w){ // caso o peso seja diferente de w, a aresta não está presente
+    if(adjMatrix[v[0]][v[1]]!=w){ // caso o peso seja diferente de w, a aresta nao está presente
       return false;
     }
     else{ // se o peso é igual a w, a aresta está presente
@@ -129,20 +129,20 @@ bool Graph::isComplete(){//Método para testa se um grafo é completo
     for(int i = 0; i < vertices; i++){
       for(int j = 0; j < vertices; j++){
         if(i == j){continue;} //para todos os valores em que i==j, está num vétice, o peso deve sempre ser zero
-        if(adjMatrix[i][j]==0) //quando o peso é zero, significa que não há aresta, logo, o grafo não é completo
+        if(adjMatrix[i][j]==0) //quando o peso é zero, significa que nao há aresta, logo, o grafo nao é completo
           return false;
       }
     }
     return true; // caso percorra toda a matriz sem encontrar zeros em i!=j, o grafo é completo
   }
 void Graph::complete(){ //Método para completar um grafo
-    if(isComplete()){//caso o grafo já esteja completo, não faz nada
+    if(isComplete()){//caso o grafo já esteja completo, nao faz nada
       return;
     }
     //percorre a matriz de adjacencia
     for(int i = 0; i < vertices; i++){
       for(int j = 0; j < vertices; j++){
-        if(adjMatrix[i][j]==0){ //caso não exista aresta, coloca 1, assume-se uma aresta de valor mínimo
+        if(adjMatrix[i][j]==0){ //caso nao exista aresta, coloca 1, assume-se uma aresta de valor mínimo
           if(i == j){ continue;} //para todos os valores em que i==j, está num vétice, o peso deve sempre ser zero
           adjMatrix.at(i).at(j) = 1;
         }
@@ -151,7 +151,7 @@ void Graph::complete(){ //Método para completar um grafo
 
 
   }
-void Graph::print(){//função para impressão da matriz de adjacência
+void Graph::print(){//funçao para impressao da matriz de adjacência
   cout << endl;
   for(int i=0; i<vertices;i++){
     for(int j=0; j<vertices; j++){
@@ -166,25 +166,25 @@ void Graph::print(){//função para impressão da matriz de adjacência
 Graph Graph::mst(int start){ //Método para criar uma árore geradora mínima para o grafo
 
   int current = start; // inicia a montagem da árvore pelo valor passado
-  vector<int> mstBeen, mstLack;//estruturar para guardar os vértices percorridos, não percorridos
+  vector<int> mstBeen, mstLack;//estruturar para guardar os vertices percorridos, nao percorridos
   Graph mst(vertices);//grafo a ser retornado como a árvore geradora mínima
-  for(int i = 0; i< vertices; i++){mstLack.push_back(i);} // inicialização dos não percorridos
+  for(int i = 0; i< vertices; i++){mstLack.push_back(i);} // inicializaçao dos nao percorridos
 
-  mstLack.erase(mstLack.begin()+start);//remove start dos não percorridos
-  mstBeen.push_back(start);//inicialização dos percorridos
+  mstLack.erase(mstLack.begin()+start);//remove start dos nao percorridos
+  mstBeen.push_back(start);//inicializaçao dos percorridos
 
 
-  Edge menorAresta(0,0,INT_MAX); //Valores arbitrários para inicialização e inteiro máximo para a comparação funcionar
+  Edge menorAresta(0,0,INT_MAX); //Valores arbitrários para inicializaçao e inteiro máximo para a comparaçao funcionar
 
-  vector<int> vaux; //vetor auxiliar para receber os vértices da menor aresta, atributos privados da classe Edge
+  vector<int> vaux; //vetor auxiliar para receber os vertices da menor aresta, atributos privados da classe Edge
   while(!mstLack.empty()){
 
       for(int iterator = 0; iterator<mstBeen.size();iterator++){ // procura a menor aresta que sai do conjunto
-        current = mstBeen.at(iterator); //passa por todos os vértices em que já esteve
+        current = mstBeen.at(iterator); //passa por todos os vertices em que já esteve
         for(int j=0;j<vertices;j++){
-          if(adjMatrix[current][j] == 0){ //caso o peso seja igual a zero, não há aresta
+          if(adjMatrix[current][j] == 0){ //caso o peso seja igual a zero, nao há aresta
             continue;}
-          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j(destino) nos vértices já percorridos e ignora
+          if (find(mstBeen.begin(), mstBeen.end(), j) != mstBeen.end() ){//encontrou o valor de j(destino) nos vertices já percorridos e ignora
             continue;}
           if(adjMatrix[current][j] < menorAresta.getWeight()){ // caso o valor atual seja menor que o salvo na menor aresta
               menorAresta.modifiyEdge(current, j, adjMatrix.at(current).at(j));//coloca o valor da menor aresta encontrada no conjunto, saindo do atual até um destino j
@@ -195,30 +195,29 @@ Graph Graph::mst(int start){ //Método para criar uma árore geradora mínima pa
 
         //Nesse momento, menorAresta contem a menor aresta que sai do conjunto
 
-      vaux = menorAresta.getPoints(); // utiliza o vetor auxiliar para receber os vértices da menor aresta
-      mstBeen.push_back(vaux.at(1)); //inclui nos vértices já visitados o vértice incluso
+      vaux = menorAresta.getPoints(); // utiliza o vetor auxiliar para receber os vertices da menor aresta
+      mstBeen.push_back(vaux.at(1)); //inclui nos vertices já visitados o vertice incluso
 
-      for(int m = 0; m<mstLack.size(); m++){//remove dos vertices que faltam o vértice incluso
+      for(int m = 0; m<mstLack.size(); m++){//remove dos vertices que faltam o vertice incluso
           if(mstLack.at(m)==vaux.at(1)){
             mstLack.erase(mstLack.begin()+m);
             break;
           }
         }
         mst.insert(menorAresta); //insere a menor aresta na árvore mínima
-        menorAresta.modifiyEdge(0,0,INT_MAX);//reseta o valor da menor aresta para que possa ser feita a comparação novamente no novo loop do while
+        menorAresta.modifiyEdge(0,0,INT_MAX);//reseta o valor da menor aresta para que possa ser feita a comparaçao novamente no novo loop do while
       }
 
       return mst;
 }
-vector<int> Graph::bfs(){ //Método para realizar a busca em largura no grafo
-  int start = 0;
+vector<int> Graph::bfs(int start){ //Método para realizar a busca em largura no grafo;
   vector<int> bfs; // vetor que retorna a busca em largura
   queue<int> queue; //lista de controle
-  vector<int> adjacents;//vetor de adjacentes do vértice atual
-	bool visited[vertices]; //vértices visitados
+  vector<int> adjacents;//vetor de adjacentes do vertice atual
+	bool visited[vertices]; //vertices visitados
 	bool explored[vertices][vertices]; //arestas exploradas
 
-	visited[start] = true;//inicialização necessária
+	visited[start] = true;//inicializaçao necessária
 	queue.push(start);
 
   //estruturas para guardar o valor atual e seu vizinho
@@ -233,7 +232,7 @@ vector<int> Graph::bfs(){ //Método para realizar a busca em largura no grafo
 
 		for(int i = 0; i< vertices; i++){
 			if(adjMatrix[current][i] != 0){
-				adjacents.push_back(i);//conjunto dos vértices adjacentes ao vértices atual.
+				adjacents.push_back(i);//conjunto dos vertices adjacentes ao vertices atual.
 			}
 		}
 
@@ -247,49 +246,36 @@ vector<int> Graph::bfs(){ //Método para realizar a busca em largura no grafo
 				visited[neighbor] = true; // marca o visinho
 			}
 			else //caso o visinho esteja explorado
-				if(explored[current][neighbor] == false){ //mas a aresta não
+				if(explored[current][neighbor] == false){ //mas a aresta nao
           //explora a aresta simetricamente
 					explored[current][neighbor];
 					explored[neighbor][current];
 				}
 		}
 	}
-	return bfs; //retorna o vetor com os vértices na ordem da busca
+	return bfs; //retorna o vetor com os vertices na ordem da busca
 }
 vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no grafo
-  cout <<"welcome to the function " << endl;
 
 
     visited[v]=true;
-    cout<<"visitados: " << endl;
-    for(int t = 0; t<vertices; t++){
-      cout<<visited[t] <<" ";
-    }
+
 
 
     neighbors = 0;
-    for(int k = 0; k<vertices; k++){ //encontrou os vizinhos do vértice V não marcados
+    for(int k = 0; k<vertices; k++){ //encontrou os vizinhos do vertice V nao marcados
       if(adjMatrix[v][k]!=0 && (!visited[k])){
         neighbors++;
       }
     }
-    cout <<"numero de visinhos não marcados " << neighbors << endl;
 
-    cout <<"Analisando o vértice" << v << endl;
     dfsVec.push_back(v);
     for(int i=0;i<vertices;i++){
-      cout<<"ponto " << i << endl;
         if((!visited[i])&&(adjMatrix[v][i]!=0)){
-          cout<< "Ponteiro da matriz " <<&adjMatrix[v][i] << endl;
-          cout<< "Ponteiro de visitados " <<&visited[i] << endl;
 
 
-          cout<<"Arvore construída ";
           for(int t = 0; t<dfsVec.size(); t++){
-             cout<<dfsVec.at(t) <<" ";
           }
-          cout << endl;
-          cout <<"Chamada recursiva" << endl;
 
           this->dfs(i);
 
@@ -298,7 +284,6 @@ vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no 
 
 
     if(dfsVec.size() == vertices && v == *dfsVec.begin()){
-      cout << "Entrou no retorno";
       vector<int> v = dfsVec;
       dfsVec.clear();
       return v;
@@ -308,28 +293,28 @@ vector<int> Graph::dfs(int v){//Método para realizar a busca em proundidade no 
 
 int Graph::connected(){
 
-  vector<int> v = this->dfs();
-  bool marked[vertices];
-  int cntAmt = 1;
-  bool aux;
-  if(v.size() != vertices){
+  vector<int> v = this->dfs(); //chama dfs
+  bool marked[vertices]; //gera a estrutura de marcaçao
+  int cntAmt = 1; //variável para contar quantas componentes conexas há
+  bool aux; //variável auxiliar
+  if(v.size() != vertices){ // testa se o vetor de dfs tem o mesmo tamanho de vertices. Se tiver, pode retortar 1 diretamente
     int start = 0;
 
-
-    while(aux){
+    while(aux){ //loop para percorrer o grafo
 
       for(int i = start; i<vertices; i++){
-        if(find(v.begin(), v.end(), i) != v.end()){
-          marked[i] = true;
+        if(find(v.begin(), v.end(), i) != v.end()){ //verifica se o vertice já foi buscado por dfs
+          marked[i] = true; // se sim, marca o vertice
         }
-        else{
+        else{ // se nao
             v.clear();
-            cntAmt++;
-            v = this->dfs(i);
+            cntAmt++; //adiciona uma nova componente nao conectada
+            v = this->dfs(i); //chama dfs novamente
+            //manutençao do while
             start = i;
             aux = marked[0];
             for(int j=1; j < vertices; j++){
-              aux = (marked[j] |= marked [j-1]);
+              aux = (marked[j] |= marked [j-1]); //seta a variáel aux para ser verdadeira somente quando todos os vertices tiverem sido buscados
 
             }
         }
@@ -338,18 +323,18 @@ int Graph::connected(){
 
 
     }
-    return cntAmt;
+    return cntAmt; //retorno das componentes conexas
   }
-  else{
+  else{ // o grafo só tem uma componente conexa, pode retornar 1
     return 1;
   }
 
 }
-vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o menor caminho entre dois vértices pelo algoritmo de dijkstra
-  int dt[vertices]; //vetor com os menores caminhos até o vértice de cada elemento
+vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o menor caminho entre dois vertices pelo algoritmo de dijkstra
+  int dt[vertices]; //vetor com os menores caminhos até o vertice de cada elemento
   int rot[vertices]; // vetor com o antecessor no menor caminho até ele
   vector<int> toReturn;
-  //inicialização dos vetores acima
+  //inicializaçao dos vetores acima
   dt[start] = 0;
   rot[start] = INT_MAX;
   for(int i = start+1; i<vertices; i++){
@@ -357,32 +342,30 @@ vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o meno
     rot[i] = 0;
   }
 
-  //ESTRUTURAS DE MARCAÇÃO
-  bool open[vertices];//valores não olhados
+  //ESTRUTURAS DE MARCAÇao
+  bool open[vertices];//valores nao olhados
   bool closed[vertices];//valores olhados
 
   int mindt = INT_MAX; //variável auxiliar para encontrar o menor dt
-  int minVert; //variável auxiliar para guardar o menor vértice
+  int minVert; //variável auxiliar para guardar o menor vertice
   int whileCond = 0; // variável auxiliar para testar o while
   int minFinal; // variável auxiliar para decidir modificar o dt atual
 
   while (whileCond != vertices-start) {
-    cout<< "Entrou no while" << endl;
 
     for(int j=start;j<vertices;j++){ //encontra o menor dt dentre os valores presentes em A.
-      if(open[j] == false){ // j existe em open(considera-se falso por facilidade de incialização)
+      if(open[j] == false){ // j existe em open(considera-se falso por facilidade de incializaçao)
         if(mindt > dt[j]){ //caso o menor seja maior que o atual, salva o atual como menor
           mindt = dt[j];
-          minVert = j; // guarda o vértice do menor
+          minVert = j; // guarda o vertice do menor
         }
       }
     }
-    cout<<"Encontrou o mínimo:" << mindt << " No vértice " << minVert << endl;
 
     open[minVert] = true; //removido de open
-    closed[minVert] = true; //incluído em closed, true por facilidade de inicialização
+    closed[minVert] = true; //incluído em closed, true por facilidade de inicializaçao
 
-    for(int k = start; k< vertices; k++){ //Examina todos os adjacentes que não estão em closed
+    for(int k = start; k< vertices; k++){ //Examina todos os adjacentes que nao estao em closed
 			if((adjMatrix[minVert][k] != 0)&&(closed[k]==false)){
         minFinal = min(dt[k], dt[minVert]+adjMatrix[minVert][k]); //compara o valor do caminho direto com o valor do menor caminho+menor caminho até o atual
         if(minFinal < dt[k]){
@@ -391,13 +374,11 @@ vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o meno
         }
 			 }
   		}
-      cout<<"Comparou o mínimo com o valor de dt/rot"<<endl;
 
     whileCond = 0; // reset da variável de teste do while
     mindt = INT_MAX; //reset da variável de teste
-    for(int l = start; l<vertices; l++){ //Condição para saída do while
+    for(int l = start; l<vertices; l++){ //Condiçao para saída do while
       if(open[l]==true){
-        cout<<"Incrementou whileCond"<<endl;
         whileCond++;
       }
     }
@@ -408,30 +389,29 @@ vector<int> Graph::dijkstra(int start, int end){ //Método para encontrar o meno
   toReturn.push_back(aux);
   while(aux != start){
     aux = rot[aux];
-    cout<<"Valor no rot " << aux << endl;
     toReturn.push_back(aux);
   }
-  reverse(toReturn.begin(),toReturn.end()); //coloca os valores dos vértices em ordem crescente
+  reverse(toReturn.begin(),toReturn.end()); //coloca os valores dos vertices em ordem crescente
   toReturn.push_back(dt[end]); //adiciona o comprimento do caminho no final do vetor
   return toReturn;
 }
-vector<int> Graph::travSales(int start){ //Método para resolver o problema do caixeiro viajante à partir de um vértice inicial
-  //completa o grafo caso ele não seja completo
+vector<int> Graph::travSales(int start){ //Método para resolver o problema do caixeiro viajante à partir de um vertice inicial
+  //completa o grafo caso ele nao seja completo
   this->complete();
 
 
 
-  vector<int> vert; //Vértices a serem   olhados
+  vector<int> vert; //Vertices a serem   olhados
   vector<int> path; //Menor caminho atual
   vector<int> minPath; //Menor caminho global
 
-  for(int i = 0; i<vertices; i++){ //coloca todos os vértices menos o inicial no vetor
+  for(int i = 0; i<vertices; i++){ //coloca todos os vertices menos o inicial no vetor
     if(i != start){
       vert.push_back(i);
     }
   }
 
-  int minRt= INT_MAX; //cria uma variável de teste para a menor rota(soma dos pesos) inicializada com o maior inteirom  para comparação
+  int minRt= INT_MAX; //cria uma variável de teste para a menor rota(soma dos pesos) inicializada com o maior inteirom  para comparaçao
   int currentRt;
   int next;
 
@@ -441,11 +421,11 @@ vector<int> Graph::travSales(int start){ //Método para resolver o problema do c
 
         next = start; //inicializa o próximo com o inicial para começar a passar pelo grafo
         path.push_back(start); // coloca no caminho o inicial
-        for (int i = 0; i < vert.size(); i++) { //percorre os vértices
+        for (int i = 0; i < vert.size(); i++) { //percorre os vertices
 
             currentRt = currentRt + adjMatrix[next][vert[i]]; //adiciona a rota atual percorrendo a matriz de adjacencia
             next = vert.at(i); // coloca o pŕoximo valor da matriz em next
-            path.push_back(next); // adiciona o vértice no caminho
+            path.push_back(next); // adiciona o vertice no caminho
         }
         currentRt = currentRt + adjMatrix[next][start]; // adiciona na rota a distância do ponto final ao inicial
         path.push_back(start); // coloca o inicial no caminho após completar a volta
@@ -453,18 +433,17 @@ vector<int> Graph::travSales(int start){ //Método para resolver o problema do c
 
 
         if(minRt > currentRt){ //caso a rota calculada seja menor que a salva, troca
-          cout <<" minimo maior que o atual" << endl;
           minRt = currentRt;
           minPath = path;
 
         }
 
 
-    } while (next_permutation(vert.begin(), vert.end())); //modifica o vetor de vertices para serem observadas todas as suas permutações, olhando toda as combinações possíveis de vértices
+    } while (next_permutation(vert.begin(), vert.end())); //modifica o vetor de vertices para serem observadas todas as suas permutações, olhando toda as combinações possíveis de vertices
 
 
     minPath.push_back(minRt); //coloca no final do vetor de caminho mínimo a rota mínima
-    return minPath; // retorna a solução do probl
+    return minPath; // retorna a soluçao do probl
 
 
 }
